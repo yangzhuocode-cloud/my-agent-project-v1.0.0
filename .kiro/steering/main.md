@@ -100,6 +100,16 @@ agents/{agent-name}/
 docs/
 ├── agents/
 │   └── {agent-name}.md       # Agent 使用文档（面向用户）
+├── issues/                    # 开发过程记录
+│   ├── problems/              # 问题记录
+│   │   ├── user/              # 用户提出的问题
+│   │   └── ai/                # AI 开发过程中的问题
+│   ├── notes/                 # 知识笔记和理解
+│   │   ├── user/              # 用户的学习笔记
+│   │   └── ai/                # AI 的学习和成长记录
+│   └── ideas/                 # 想法和思路
+│       ├── user/              # 用户的想法和思路
+│       └── ai/                # AI 的想法和优化思路
 ├── configuration.md           # 配置说明
 ├── development-guide.md       # 开发规范
 ├── quick-start.md            # 快速开始
@@ -110,6 +120,21 @@ docs/
 
 - `agents/{agent-name}/docs/` - 存放 Agent 运行时需要的资源文件（如 prompt 模板）
 - `docs/agents/{agent-name}.md` - 存放面向用户的使用文档和说明
+- `docs/issues/problems/` - 存放开发过程中遇到的问题和解决方案
+- `docs/issues/notes/` - 存放知识笔记、学习记录和技术理解
+- `docs/issues/ideas/` - 存放新想法、优化思路和未来规划
+
+### 开发记录文件命名规范
+
+在 `docs/issues/` 下的所有文档文件应遵循以下命名规范：
+
+**格式**：`YYYYMMDD_简短描述.md`
+
+**示例**：
+- `problems/user/20260319_API调用超时问题.md`
+- `notes/user/20260319_Python装饰器理解.md`
+- `notes/ai/20260319_上下文管理优化思路.md`
+- `ideas/user/20260320_新Agent开发计划.md`
 
 ## AI 助手工作流程
 
