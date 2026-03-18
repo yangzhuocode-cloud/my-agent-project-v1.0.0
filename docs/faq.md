@@ -122,6 +122,8 @@ A: 所有文档位于 `docs/` 目录：
 - [快速开始](./quick-start.md)
 - [配置说明](./configuration.md)
 - [开发规范](./development-guide.md)
+- [Git 工作流程](./git-workflow.md)
+- [开发过程记录指南](./issues-guide.md)
 
 ### Q: 如何贡献代码？
 

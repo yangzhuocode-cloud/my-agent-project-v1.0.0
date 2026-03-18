@@ -63,4 +63,5 @@ Agent 会自动记住对话历史，支持上下文连续对话：
 
 - 查看 [配置说明](./configuration.md) 了解参数调整
 - 查看 [开发规范](./development-guide.md) 了解如何开发新的 Agent
+- 查看 [Git 工作流程](./git-workflow.md) 了解分支管理和提交规范
 - 遇到问题？查看 [常见问题](./faq.md)

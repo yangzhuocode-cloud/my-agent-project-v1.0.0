@@ -42,10 +42,19 @@ def call_api(user_input):
 
 ## Git 提交规范
 
-使用 Angular 提交规范，详见 `agents/my first agent/docs/git_commit_angular_001.md`。
+项目使用 Angular 提交规范，详细的分支管理和工作流程请参考：
 
-### 提交类型
+- [Git 工作流程](./git-workflow.md) - 分支管理和工作流程
+- [Angular 提交规范详解](../agents/my%20first%20agent/docs/git_commit_angular_001.md) - 详细的提交规范说明
 
+### 快速参考
+
+提交格式：
+```
+<type>(<scope>): <subject>
+```
+
+常用类型：
 - `feat`: 新功能
 - `fix`: 修复 Bug
 - `docs`: 文档变更
@@ -55,18 +64,7 @@ def call_api(user_input):
 - `test`: 测试相关
 - `chore`: 构建工具或辅助工具变动
 
-### 提交格式
-
-```
-<type>(<scope>): <subject>
-
-<body>
-
-<footer>
-```
-
-### 示例
-
+示例：
 ```
 feat(agent): 添加新的对话 Agent
 
@@ -104,7 +102,9 @@ docs/
 ├── quick-start.md           # 快速开始
 ├── configuration.md         # 配置说明
 ├── development-guide.md     # 开发规范
+├── git-workflow.md          # Git 工作流程
 ├── faq.md                   # 常见问题
+├── issues-guide.md          # 开发过程记录指南
 └── agents/                  # 各 Agent 详细文档
     └── [agent-name].md
 ```

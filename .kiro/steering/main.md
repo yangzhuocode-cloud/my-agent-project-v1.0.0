@@ -72,6 +72,7 @@ inclusion: auto
 - `docs/configuration.md` - 配置参数变更时更新
 - `docs/quick-start.md` - 使用流程变更时更新
 - `docs/development-guide.md` - 开发规范变更时更新
+- `docs/git-workflow.md` - Git 分支管理和工作流程变更时更新
 - `docs/faq.md` - 新增常见问题时更新
 
 ## 代码规范
@@ -112,6 +113,8 @@ docs/
 │       └── ai/                # AI 的想法和优化思路
 ├── configuration.md           # 配置说明
 ├── development-guide.md       # 开发规范
+├── git-workflow.md            # Git 工作流程
+├── issues-guide.md            # 开发过程记录指南
 ├── quick-start.md            # 快速开始
 └── faq.md                    # 常见问题
 ```
@@ -279,6 +282,7 @@ AI 助手在以下情况下应自动创建或更新问题文档：
    - 配置参数变更 → `docs/configuration.md`
    - 使用流程变更 → `docs/quick-start.md`
    - 开发规范变更 → `docs/development-guide.md`
+   - Git 工作流程变更 → `docs/git-workflow.md`
    - 新增常见问题 → `docs/faq.md`
 
 6. **自动记录问题（如遇到）**

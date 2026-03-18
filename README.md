@@ -29,6 +29,7 @@
 - [快速开始](./docs/quick-start.md) - 环境配置和基本使用
 - [配置说明](./docs/configuration.md) - 参数配置详解
 - [开发规范](./docs/development-guide.md) - 代码规范和提交规范
+- [Git 工作流程](./docs/git-workflow.md) - 分支管理和工作流程
 - [常见问题](./docs/faq.md) - 问题排查和解决方案
 
 ## 开发过程记录
