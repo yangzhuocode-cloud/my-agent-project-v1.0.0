@@ -6,23 +6,28 @@
 
 ### 新增
 
-- 新增 `agents/my first agent/references/` 目录，用于存放参考的 Agent 项目
-- 添加两个参考项目说明：
+- 新增顶级 `references/` 目录，用于存放项目级通用参考资源
+- 添加 `references/ollama-python/` - Ollama Python SDK 参考项目
+- 新增 `agents/my first agent/references/` 目录，用于存放 Agent 特定参考项目
+- 添加两个 Agent 参考项目说明：
   - learn-claude-code：从零构建类似 Claude Code 的 Agent
   - ai-agents-from-scratch：使用纯 Python 构建 AI Agent 的完整课程
-- 新增 references 目录使用规范和说明文档
 
 ### 优化
 
-- 更新 `.kiro/steering/main.md`，添加 references 目录使用规范
-- 更新 `docs/project-structure.md`，完善 Agent 目录结构说明
+- 明确区分两个 references 目录的用途：
+  - 顶级 `references/`：项目级通用参考资源（SDK、库、工具）
+  - `agents/{name}/references/`：Agent 特定参考项目
+- 更新 `.kiro/steering/main.md`，添加两个 references 目录的使用规范和选择原则
+- 更新 `docs/project-structure.md`，完善两个 references 目录的说明和对比
 - 更新 `docs/agents/my-first-agent.md`，添加参考项目说明
-- 更新 `README.md`，在项目结构中展示 references 目录
+- 更新 `README.md`，在项目结构中展示顶级 references 目录
 
 ### 文档
 
 - 规范化 references 目录的使用方法和命名规则
-- 明确参考项目的克隆和管理流程
+- 明确参考资源的分类原则和存放位置
+- 完善参考项目的克隆和管理流程
 
 ---
 

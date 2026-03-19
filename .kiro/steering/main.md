@@ -122,7 +122,8 @@ AI-Agents/
 ### 文件职责说明
 
 - `agents/{agent-name}/docs/` - 存放 Agent 运行时需要的资源文件（如 prompt 模板）
-- `agents/{agent-name}/references/` - 存放参考的其他 Agent 项目和代码示例（可选）
+- `agents/{agent-name}/references/` - 存放该 Agent 特定的参考项目和代码示例（可选）
+- `references/` - 存放项目级通用参考资源，如 SDK、库、工具等
 - `docs/agents/{agent-name}.md` - 存放面向用户的使用文档和说明
 - `docs/issues/problems/` - 存放开发过程中遇到的问题和解决方案
 - `docs/issues/notes/` - 存放知识笔记、学习记录和技术理解
@@ -130,7 +131,39 @@ AI-Agents/
 
 ### References 目录使用规范
 
-每个 Agent 可以有自己的 `references/` 目录，用于存放参考的其他 Agent 项目和代码示例。
+项目中有两个 `references/` 目录，用途不同：
+
+#### 1. 顶级 `references/` - 项目级通用参考资源
+
+**用途**：存放项目级别的通用参考资源，如 SDK、库、框架等。
+
+**特点**：
+- 与具体 Agent 无关
+- 多个 Agent 可能共用
+- 通常是技术依赖或工具库
+
+**示例**：
+- `ollama-python` - Ollama Python SDK
+- 通用工具库、框架代码
+
+**使用方法**：
+```bash
+cd references
+git clone https://github.com/ollama/ollama-python.git
+```
+
+#### 2. `agents/{agent-name}/references/` - Agent 特定参考项目
+
+**用途**：存放该 Agent 开发过程中参考的其他 Agent 项目和代码示例。
+
+**特点**：
+- 与该 Agent 的实现直接相关
+- 用于学习和参考特定功能
+- 通常是完整的 Agent 项目
+
+**示例**：
+- `learn-claude-code` - 学习 Agent 架构
+- `ai-agents-from-scratch` - 学习 Agent 实现
 
 **使用方法**：
 1. 在 Agent 目录下创建 `references/` 目录
@@ -143,6 +176,11 @@ AI-Agents/
 cd "agents/my first agent/references"
 git clone https://github.com/example/agent-project.git
 ```
+
+**选择原则**：
+- 评估参考资源的通用性
+- 如果是多个 Agent 可能用到的 SDK/库 → 放在顶级 `references/`
+- 如果是特定 Agent 的学习参考项目 → 放在 `agents/{name}/references/`
 
 ### 开发记录文件命名规范
 

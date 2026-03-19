@@ -17,7 +17,7 @@ AI-Agents/
 │       ├── docs/              # Agent 运行资源
 │       │   ├── git_commit_angular_001.md
 │       │   └── prompt_generator_001.md
-│       └── references/        # 参考项目（可选）
+│       └── references/        # Agent 特定参考项目（可选）
 │           └── README.md      # 参考项目说明
 ├── docs/                      # 项目文档目录
 │   ├── agents/                # 各 Agent 使用文档
@@ -39,6 +39,8 @@ AI-Agents/
 │   ├── issues-guide.md        # 开发过程记录指南
 │   ├── project-structure.md   # 项目结构说明（本文档）
 │   └── quick-start.md         # 快速开始
+├── references/                # 项目级通用参考资源
+│   └── ollama-python/         # Ollama Python SDK
 ├── CHANGELOG.md               # 更新日志
 └── README.md                  # 项目说明
 ```
@@ -102,7 +104,7 @@ docs/issues/
 - **User 文档**：`YYYYMMDD_简短描述.md`
 - **AI 文档**：`{关键词-slug}.md`
 
-##### `agents/{agent-name}/references/` - 参考项目目录（可选）
+##### `agents/{agent-name}/references/` - Agent 特定参考项目（可选）
 存放该 Agent 开发过程中参考的其他 Agent 项目和代码示例。
 
 **使用场景：**
@@ -126,6 +128,29 @@ git clone https://github.com/example/agent-project.git
 - 学习笔记记录在 `docs/issues/notes/user/` 目录下
 - 定期更新参考项目以获取最新代码
 
+#### `references/` - 项目级通用参考资源
+存放项目级别的通用参考资源，如 SDK、库、工具等。
+
+**与 Agent 特定参考项目的区别：**
+- **顶级 `references/`**：存放通用的、多个 Agent 可能共用的参考资源
+  - 示例：ollama-python SDK、通用工具库、框架代码
+  - 特点：与具体 Agent 无关，项目级别的依赖和参考
+  
+- **`agents/{name}/references/`**：存放特定 Agent 的参考项目
+  - 示例：learn-claude-code、ai-agents-from-scratch
+  - 特点：与该 Agent 的实现直接相关，用于学习和参考
+
+**使用方法：**
+```bash
+cd references
+git clone https://github.com/ollama/ollama-python.git
+```
+
+**注意事项：**
+- 评估参考资源的通用性，决定放在哪个 references 目录
+- 项目级参考资源应该是多个 Agent 可能用到的
+- 遵守各项目的开源协议
+
 ### 配置目录
 
 #### `.kiro/` - Kiro IDE 配置
@@ -146,8 +171,9 @@ git clone https://github.com/example/agent-project.git
 |----------|----------|----------|----------|
 | Agent 代码 | `agents/{name}/main.py` | 开发者 | 实现逻辑 |
 | Agent 资源 | `agents/{name}/docs/` | AI 系统 | 运行时资源 |
-| Agent 参考 | `agents/{name}/references/` | 开发者 | 学习参考 |
+| Agent 参考 | `agents/{name}/references/` | 开发者 | Agent 特定参考 |
 | Agent 文档 | `docs/agents/{name}.md` | 用户 | 使用说明 |
+| 项目参考 | `references/` | 开发者 | 通用参考资源 |
 | 开发指令 | `.kiro/steering/main.md` | AI 助手 | 开发规范 |
 | 项目说明 | `README.md` | 人类开发者 | 项目介绍 |
 

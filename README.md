@@ -14,10 +14,12 @@ AI-Agents/
 │   └── my first agent/       # 示例对话 Agent
 │       ├── main.py           # Agent 主程序
 │       ├── docs/             # Agent 运行资源
-│       └── references/       # 参考项目（可选）
+│       └── references/       # Agent 特定参考项目（可选）
 ├── docs/                     # 项目文档目录
 │   ├── agents/               # Agent 使用文档
 │   └── issues/               # 开发过程记录
+├── references/               # 项目级通用参考资源
+│   └── ollama-python/        # Ollama Python SDK
 └── .kiro/                    # Kiro IDE 配置
 ```
 
