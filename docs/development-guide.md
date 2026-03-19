@@ -45,7 +45,7 @@ def call_api(user_input):
 项目使用 Angular 提交规范，详细的分支管理和工作流程请参考：
 
 - [Git 工作流程](./git-workflow.md) - 分支管理和工作流程
-- [Angular 提交规范详解](../agents/my%20first%20agent/docs/git_commit_angular_001.md) - 详细的提交规范说明
+- [Git Commit 规范](../prompts/git_commit_angular_001.md) - Angular 提交规范详解
 
 ### 快速参考
 
@@ -122,3 +122,32 @@ AI-Agents/
 - 合理的日志输出
 - 编写可复用的工具函数
 - 配置与代码分离
+
+## Prompt 开发规范
+
+项目使用统一的 Prompt 管理机制，所有 Prompt 文件必须遵循元数据规范：
+
+- [Prompts 管理指南](./prompts-guide.md) - Prompts 的组织结构和使用方式
+- [Prompt 元数据规范](./prompt-metadata-spec.md) - 元数据字段的权威定义
+
+### 关键规范
+
+1. **元数据必填**：所有 Prompt 文件必须包含 YAML front matter 元数据
+2. **命名规范**：
+   - 项目级 Prompt：`{功能描述}_{版本号}.md`
+   - Agent 主提示词：固定为 `agent.md`
+3. **引用语法**：使用 `#[[prompt:prompt_id]]` 引用其他 Prompt
+4. **Scope 设置**：根据用途正确设置 `scope` 字段
+
+### 示例
+
+```yaml
+---
+prompt_id: git_commit_angular_001
+scope: shared
+agents: ["*"]
+version: 1.0.0
+description: Git Commit 规范
+created: 2026-03-19
+---
+```

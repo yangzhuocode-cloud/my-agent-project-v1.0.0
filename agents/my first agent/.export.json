@@ -1,0 +1,7 @@
+{
+  "exclude_patterns": [
+    ".export.json",
+    "__pycache__",
+    "*.pyc"
+  ]
+}

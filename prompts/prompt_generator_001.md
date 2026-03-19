@@ -1,12 +1,15 @@
-专业Prompt生成器（MD文档）
-
-# Meta Data
+---
 prompt_id: prompt_generator_001
-description: 用于生成各类场景下可直接使用、结构清晰、效果稳定的Prompt，输出为标准Markdown格式，包含Meta Data头文件和正文两部分。
-
+scope: private
+agents: []
+version: 1.0.0
+description: 用于生成各类场景下可直接使用、结构清晰、效果稳定的Prompt，输出为标准Markdown格式
+tags: ["prompt", "generator", "工具"]
+created: 2026-03-18
+updated: 2026-03-19
 ---
 
-专业 Prompt 生成器
+# 专业 Prompt 生成器（MD文档）
 
 核心任务
 

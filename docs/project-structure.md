@@ -14,9 +14,11 @@ AI-Agents/
 ├── agents/                    # AI Agent 代码目录
 │   └── my first agent/        # 示例 Agent
 │       ├── main.py            # Agent 主程序
-│       ├── docs/              # Agent 运行资源
-│       │   ├── git_commit_angular_001.md
-│       │   └── prompt_generator_001.md
+│       ├── config.json        # Agent 运行时配置
+│       ├── .export.json       # Agent 导出配置（不导出）
+│       ├── prompts/           # Agent 的 Prompts 目录
+│       │   ├── agent.md       # Agent 主提示词（必需）
+│       │   └── *.md           # Agent 私有的其他 Prompts
 │       └── references/        # Agent 特定参考项目（可选）
 │           └── README.md      # 参考项目说明
 ├── docs/                      # 项目文档目录
@@ -38,9 +40,15 @@ AI-Agents/
 │   ├── git-workflow.md        # Git 工作流程
 │   ├── issues-guide.md        # 开发过程记录指南
 │   ├── project-structure.md   # 项目结构说明（本文档）
+│   ├── prompts-guide.md       # Prompts 管理指南
 │   └── quick-start.md         # 快速开始
+├── prompts/                   # 项目级 Prompts（单一数据源）
+│   ├── git_commit_angular_001.md    # 共享 Prompt
+│   └── prompt_generator_001.md      # 项目私有 Prompt
 ├── references/                # 项目级通用参考资源
 │   └── ollama-python/         # Ollama Python SDK
+├── scripts/                   # 项目脚本
+│   └── export-agent.py        # Agent 导出脚本
 ├── CHANGELOG.md               # 更新日志
 └── README.md                  # 项目说明
 ```
@@ -56,10 +64,11 @@ AI-Agents/
 ```
 agents/{agent-name}/
 ├── main.py                    # Agent 主程序
-├── config.py                  # 配置文件（可选）
-├── utils.py                   # 工具函数（可选）
-├── docs/                      # Agent 运行资源
-│   └── *.md                   # prompt 模板等资源文件
+├── config.json                # Agent 运行时配置
+├── .export.json               # Agent 导出配置（不导出）
+├── prompts/                   # Agent 的 Prompts 目录
+│   ├── agent.md               # Agent 主提示词（必需）
+│   └── *.md                   # Agent 私有的其他 Prompts
 └── references/                # 参考项目和代码示例（可选）
     ├── README.md              # 参考项目说明
     └── {参考项目目录}/        # 克隆的参考项目
@@ -67,9 +76,29 @@ agents/{agent-name}/
 
 **职责：**
 - 存放 Agent 的核心实现代码
-- 存放 Agent 运行时需要的资源文件（如 prompt 模板）
+- 存放 Agent 的配置文件（运行时配置和导出配置）
+- 存放 Agent 的 Prompts（主提示词和私有 Prompts）
 - 存放参考的其他 Agent 项目和代码示例（可选）
 - 每个 Agent 独立一个子目录，便于管理和维护
+
+**重要文件说明：**
+- `agent.md`：每个 Agent 必须有的主提示词文件
+- `config.json`：Agent 运行时配置（model、baseUrl 等）
+- `.export.json`：导出配置，指定排除的文件模式
+
+#### `prompts/` - 项目级 Prompts 目录
+存放项目级别的 Prompts，作为单一数据源。
+
+**职责：**
+- 存放可被多个 Agent 共享的 Prompts（`scope: shared`）
+- 存放项目级别的规范和标准
+- 避免在多个 Agent 中重复维护相同内容
+
+**使用方式：**
+- Agent 通过 `#[[prompt:prompt_id]]` 语法引用
+- 导出时自动复制到 Agent 的 `prompts/` 目录
+
+**详细说明：** 参见 [Prompts 管理指南](./prompts-guide.md)
 
 #### `docs/` - 项目文档目录
 存放所有面向用户的文档和开发过程记录。
@@ -170,7 +199,10 @@ git clone https://github.com/ollama/ollama-python.git
 | 文件类型 | 存放位置 | 目标读者 | 内容特点 |
 |----------|----------|----------|----------|
 | Agent 代码 | `agents/{name}/main.py` | 开发者 | 实现逻辑 |
-| Agent 资源 | `agents/{name}/docs/` | AI 系统 | 运行时资源 |
+| Agent 配置 | `agents/{name}/config.json` | Agent 运行时 | 运行时配置 |
+| Agent 主提示词 | `agents/{name}/prompts/agent.md` | AI 系统 | Agent 核心提示词 |
+| Agent 私有 Prompts | `agents/{name}/prompts/*.md` | AI 系统 | Agent 专属 Prompts |
+| 共享 Prompts | `prompts/*.md` | AI 系统 | 多 Agent 共享 |
 | Agent 参考 | `agents/{name}/references/` | 开发者 | Agent 特定参考 |
 | Agent 文档 | `docs/agents/{name}.md` | 用户 | 使用说明 |
 | 项目参考 | `references/` | 开发者 | 通用参考资源 |

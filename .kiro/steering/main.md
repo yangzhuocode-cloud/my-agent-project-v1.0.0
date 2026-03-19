@@ -99,9 +99,26 @@ inclusion: auto
 
 ## 提交规范
 
-- 使用 Angular 提交规范（详见 `docs/development-guide.md`）
+项目使用 Angular 提交规范，详细规范请参考：
+
+#[[prompt:git_commit_angular_001]]
+
+### 快速参考
+
 - 提交信息使用中文描述
 - 每次提交前确保相关文档已同步更新
+- 提交信息必须用双引号包裹
+
+### 常用提交类型
+
+- `feat`: 新功能
+- `fix`: 修复 Bug
+- `docs`: 文档变更
+- `style`: 代码格式调整
+- `refactor`: 重构
+- `perf`: 性能优化
+- `test`: 测试相关
+- `chore`: 构建工具或辅助工具变动
 
 ## 目录结构规范
 

@@ -1,11 +1,12 @@
-```yaml
-# Meta Data
+---
 prompt_id: git_commit_angular_001
+scope: shared
+agents: ["*"]
+version: 1.0.0
 description: 用于生成符合 Angular 规范的 Git Commit 消息模板，适配团队协作与版本管理场景
-scene: Git 提交信息规范化
+tags: ["git", "commit", "angular", "规范"]
 created: 2026-03-18
-```
-
+updated: 2026-03-19
 ---
 
 ## 角色定位
