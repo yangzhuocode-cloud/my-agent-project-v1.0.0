@@ -19,22 +19,7 @@
 
 ## 项目结构
 
-```
-AI-Agents/
-├── agents/           # AI Agent 代码
-├── prompts/          # 项目级 Prompts（单一数据源）
-├── docs/             # 人类文档
-│   ├── understanding/    # 理解项目
-│   ├── guides/          # 使用指南
-│   ├── development/     # 开发指南
-│   └── reference/       # 参考资料
-└── .kiro/steering/   # AI 指令
-```
-
-完整的项目结构和设计理念请参考：
-- [项目结构说明](./docs/understanding/project-structure.md)
-- [设计理念](./docs/understanding/design-philosophy.md)
-- [架构设计](./docs/understanding/architecture.md)
+完整的项目结构和目录说明请参考：[项目结构说明](./docs/understanding/project-structure.md)
 
 ## 当前 Agents
 
@@ -89,11 +74,6 @@ python scripts/export-agent.py "my first agent"
 ### 开发指南
 - [贡献指南](./docs/development/contributing.md) - 如何贡献
 - [Git 工作流程](./docs/development/git-workflow.md) - 分支和提交
-
-### 参考资料
-- [Prompt 元数据规范](./docs/reference/prompt-metadata-spec.md) - 元数据定义
-- [开发记录指南](./docs/reference/issues-guide.md) - 问题记录
-- [常见问题](./docs/reference/faq.md) - FAQ
 
 ## 更新日志
 

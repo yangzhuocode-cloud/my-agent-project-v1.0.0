@@ -55,11 +55,11 @@ git clone https://github.com/ollama/ollama-python.git
 
 ### 目录结构
 
-```
-references/
-├── README.md                           # 本文件
-└── ollama-python/                      # Ollama Python SDK
-```
+当前 `references/` 目录包含：
+- `README.md` - 本文件（参考资源说明）
+- `ollama-python/` - Ollama Python SDK
+
+完整的项目结构请参考：[项目结构说明](../docs/understanding/project-structure.md)
 
 ## 注意事项
 

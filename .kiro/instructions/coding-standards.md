@@ -243,17 +243,16 @@ updated: 2026-03-19
 
 ### Agent 文件结构
 
-```
-agents/agent-name/
-├── main.py              # 主程序
-├── config.json          # 配置文件
-├── .export.json         # 导出配置
-├── prompts/             # Prompts 目录
-│   ├── agent.md         # 主提示词
-│   └── custom.md        # 自定义 Prompts
-└── references/          # 参考项目（可选）
-    └── README.md
-```
+每个 Agent 应包含以下标准文件：
+- `main.py` - 主程序
+- `config.json` - 配置文件
+- `.export.json` - 导出配置
+- `prompts/` - Prompts 目录
+  - `agent.md` - 主提示词（必需）
+  - 其他自定义 Prompts（可选）
+- `references/` - 参考项目（可选）
+
+完整的目录结构和说明请参考：[项目结构说明](../../docs/understanding/project-structure.md)
 
 ### 模块化组织
 

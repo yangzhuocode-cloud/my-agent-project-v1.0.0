@@ -26,6 +26,53 @@
 - 修改文件职责 → 更新职责说明
 - 新增文件类型 → 更新扩展规范
 
+**重要**：`docs/understanding/project-structure.md` 是项目结构的单一数据源，其他文档不应重复维护项目结构树形图。
+
+#### 文档中的项目结构引用规范
+
+当需要在文档中提及项目结构时：
+
+**禁止**：
+- ❌ 在文档中复制粘贴完整的项目结构树形图
+- ❌ 在多个文档中维护相同的目录结构说明
+- ❌ 创建简化版的项目结构展示
+- ❌ 创建示例性的树形结构（即使是局部示例也不行）
+- ❌ 使用 `├──`、`└──`、`│` 等符号展示任何目录结构
+
+**唯一例外**：
+- ✅ 只有 `docs/understanding/project-structure.md` 可以包含项目结构树形图
+
+**正确做法**：
+- ✅ 使用文字引用：`完整的项目结构请参考：[项目结构说明](./docs/understanding/project-structure.md)`
+- ✅ 用列表说明相关文件，不展示树形结构
+- ✅ 用文字描述目录用途和包含的文件
+
+**示例**：
+
+错误写法（禁止）：
+```markdown
+## Agent 目录结构
+\`\`\`
+agents/my-agent/
+├── main.py
+├── config.json
+└── prompts/
+    └── agent.md
+\`\`\`
+```
+
+正确写法：
+```markdown
+## Agent 目录结构
+
+每个 Agent 应包含以下标准文件：
+- `main.py` - 主程序
+- `config.json` - 配置文件
+- `prompts/agent.md` - 主提示词
+
+完整的目录结构请参考：[项目结构说明](./docs/understanding/project-structure.md)
+```
+
 #### 更新 `.kiro/instructions/` 文件（如适用）
 - 新增或修改开发规范 → 更新 `coding-standards.md`
 - 新增或修改工作流程 → 更新 `workflow.md`（本文件）
@@ -91,14 +138,14 @@
 完整的新增 Agent 流程：
 
 ### 1. 创建 Agent 目录结构
-```
-agents/{agent-name}/
-├── main.py
-├── config.json
-├── .export.json
-└── prompts/
-    └── agent.md
-```
+
+创建标准的 Agent 目录，包含以下必需文件：
+- `main.py` - Agent 主程序
+- `config.json` - 运行时配置
+- `.export.json` - 导出配置
+- `prompts/agent.md` - Agent 主提示词
+
+完整的目录结构和文件说明请参考：[项目结构说明](../../docs/understanding/project-structure.md)
 
 ### 2. 实现 Agent 核心功能
 - 编写 `main.py`

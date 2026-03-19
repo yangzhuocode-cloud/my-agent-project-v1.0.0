@@ -24,7 +24,22 @@ AI-Agents/
 ├── docs/                      # 项目文档目录
 │   ├── agents/                # 各 Agent 使用文档
 │   │   └── my-first-agent.md  # My First Agent 使用说明
+│   ├── understanding/         # 理解项目
+│   │   ├── adr/               # 架构决策记录
+│   │   ├── architecture.md    # 架构设计
+│   │   ├── design-philosophy.md  # 设计理念
+│   │   └── project-structure.md  # 项目结构说明
+│   ├── guides/                # 使用指南
+│   │   ├── quick-start.md     # 快速开始
+│   │   ├── configuration.md   # 配置说明
+│   │   ├── prompts-guide.md   # Prompts 管理指南
+│   │   └── agent-export-guide.md  # Agent 导出指南
+│   ├── development/           # 开发指南
+│   │   ├── contributing.md    # 贡献指南
+│   │   ├── git-workflow.md    # Git 工作流程
+│   │   └── README.md          # 开发指南总览
 │   ├── issues/                # 开发过程记录
+│   │   ├── README.md          # 开发记录指南
 │   │   ├── problems/          # 问题记录
 │   │   │   ├── user/          # 用户提出的问题
 │   │   │   └── ai/            # AI 开发过程中的问题
@@ -34,17 +49,11 @@ AI-Agents/
 │   │   └── ideas/             # 想法和思路
 │   │       ├── user/          # 用户的想法和思路
 │   │       └── ai/            # AI 的想法和优化思路
-│   ├── configuration.md       # 配置说明
-│   ├── development-guide.md   # 开发规范
-│   ├── faq.md                 # 常见问题
-│   ├── git-workflow.md        # Git 工作流程
-│   ├── issues-guide.md        # 开发过程记录指南
-│   ├── project-structure.md   # 项目结构说明（本文档）
-│   ├── prompts-guide.md       # Prompts 管理指南
-│   └── quick-start.md         # 快速开始
+│   └── INDEX.md               # 文档索引
 ├── prompts/                   # 项目级 Prompts（单一数据源）
-│   ├── git_commit_angular_001.md    # 共享 Prompt
-│   └── prompt_generator_001.md      # 项目私有 Prompt
+│   ├── METADATA-SPEC.md           # Prompt 元数据规范
+│   ├── git_commit_angular_001.md  # 共享 Prompt
+│   └── prompt_generator_001.md    # 项目私有 Prompt
 ├── references/                # 项目级通用参考资源
 │   └── ollama-python/         # Ollama Python SDK
 ├── scripts/                   # 项目脚本
@@ -93,12 +102,13 @@ agents/{agent-name}/
 - 存放可被多个 Agent 共享的 Prompts（`scope: shared`）
 - 存放项目级别的规范和标准
 - 避免在多个 Agent 中重复维护相同内容
+- 存放 Prompt 元数据规范文档（`METADATA-SPEC.md`）
 
 **使用方式：**
 - Agent 通过 `#[[prompt:prompt_id]]` 语法引用
 - 导出时自动复制到 Agent 的 `prompts/` 目录
 
-**详细说明：** 参见 [Prompts 管理指南](./prompts-guide.md)
+**详细说明：** 参见 [Prompts 管理指南](../guides/prompts-guide.md)
 
 #### `docs/` - 项目文档目录
 存放所有面向用户的文档和开发过程记录。
@@ -112,12 +122,36 @@ agents/{agent-name}/
 - **内容**：功能介绍、使用方法、配置说明、示例代码
 - **目标读者**：项目使用者和开发者
 
+##### `docs/understanding/` - 理解项目
+存放项目的设计理念、架构设计和结构说明。
+
+- **`design-philosophy.md`**：设计理念，解释为什么这样设计
+- **`architecture.md`**：架构设计，说明技术架构和组件
+- **`project-structure.md`**：项目结构说明（本文档）
+- **`adr/`**：架构决策记录（Architecture Decision Records）
+
+##### `docs/guides/` - 使用指南
+存放项目的使用指南和教程。
+
+- **`quick-start.md`**：快速开始指南
+- **`configuration.md`**：配置说明
+- **`prompts-guide.md`**：Prompts 管理指南
+- **`agent-export-guide.md`**：Agent 导出指南
+
+##### `docs/development/` - 开发指南
+存放开发相关的指南和规范。
+
+- **`contributing.md`**：贡献指南
+- **`git-workflow.md`**：Git 工作流程
+- **`README.md`**：开发指南总览
+
 ##### `docs/issues/` - 开发过程记录
 记录开发过程中的问题、学习笔记和想法思路。
 
 **子目录结构：**
 ```
 docs/issues/
+├── README.md              # 开发记录指南
 ├── problems/              # 问题记录
 │   ├── user/              # 用户提出的问题（时间前缀命名）
 │   └── ai/                # AI 遇到的问题（slug 命名）
@@ -132,6 +166,11 @@ docs/issues/
 **命名规范：**
 - **User 文档**：`YYYYMMDD_简短描述.md`
 - **AI 文档**：`{关键词-slug}.md`
+
+**详细说明：** 参见 [开发记录指南](../issues/README.md)
+
+##### `docs/INDEX.md` - 文档索引
+提供项目所有文档的快速索引和导航。
 
 ##### `agents/{agent-name}/references/` - Agent 特定参考项目（可选）
 存放该 Agent 开发过程中参考的其他 Agent 项目和代码示例。

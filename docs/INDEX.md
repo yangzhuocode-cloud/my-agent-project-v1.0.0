@@ -7,15 +7,14 @@
 
 ## 📚 文档结构
 
-项目文档按照功能和目标读者分为以下几类：
+项目文档按照功能和目标读者分为不同类别，完整的目录结构和说明请参考：[项目结构说明](./understanding/project-structure.md)
 
-```
-docs/
-├── understanding/     # 理解项目 - 设计理念和架构
-├── guides/           # 使用指南 - 如何使用项目
-├── development/      # 开发指南 - 如何贡献代码
-└── reference/        # 参考资料 - 规范和FAQ
-```
+主要文档分类：
+- **agents/** - Agent 使用文档
+- **understanding/** - 理解项目（设计理念、架构、结构）
+- **guides/** - 使用指南（快速开始、配置、Prompts、导出）
+- **development/** - 开发指南（贡献、Git 工作流程）
+- **issues/** - 开发过程记录（问题、笔记、想法）
 
 ---
 
@@ -55,15 +54,19 @@ docs/
 
 ---
 
-## 📋 参考资料
+## 📝 开发过程记录
 
-规范定义和常见问题。
+记录开发过程中的问题、笔记和想法。
 
 | 文档 | 说明 | 用途 |
 |------|------|------|
-| [Prompt 元数据规范](./reference/prompt-metadata-spec.md) | 元数据字段定义 | 创建 Prompt 时参考 |
-| [开发记录指南](./reference/issues-guide.md) | 问题记录规范 | 记录问题和笔记 |
-| [常见问题](./reference/faq.md) | FAQ | 遇到问题时查询 |
+| [开发记录指南](./issues/README.md) | 问题记录规范 | 记录问题和笔记 |
+
+## 📐 规范文档
+
+| 文档 | 说明 | 用途 |
+|------|------|------|
+| [Prompt 元数据规范](../prompts/METADATA-SPEC.md) | 元数据字段定义 | 创建 Prompt 时参考 |
 
 ---
 
@@ -94,19 +97,19 @@ docs/
 | 如何导出 Agent | [Agent 导出](./guides/agent-export-guide.md) |
 | 如何贡献代码 | [贡献指南](./development/contributing.md) |
 | 如何提交代码 | [Git 工作流程](./development/git-workflow.md) |
-| Prompt 元数据怎么写 | [Prompt 元数据规范](./reference/prompt-metadata-spec.md) |
-| 遇到问题怎么办 | [常见问题](./reference/faq.md) |
+| Prompt 元数据怎么写 | [Prompt 元数据规范](../prompts/METADATA-SPEC.md) |
+| 如何记录问题 | [开发记录指南](./issues/README.md) |
 
 ### 我想做...
 
 | 任务 | 推荐文档 |
 |------|----------|
 | 创建新 Agent | [项目结构](./understanding/project-structure.md) → [贡献指南](./development/contributing.md) |
-| 创建新 Prompt | [Prompts 管理](./guides/prompts-guide.md) → [元数据规范](./reference/prompt-metadata-spec.md) |
+| 创建新 Prompt | [Prompts 管理](./guides/prompts-guide.md) → [元数据规范](../prompts/METADATA-SPEC.md) |
 | 导出 Agent | [Agent 导出](./guides/agent-export-guide.md) |
 | 修改配置 | [配置说明](./guides/configuration.md) |
 | 提交代码 | [Git 工作流程](./development/git-workflow.md) |
-| 记录问题 | [开发记录指南](./reference/issues-guide.md) |
+| 记录问题 | [开发记录指南](./issues/README.md) |
 
 ---
 
@@ -130,10 +133,8 @@ README.md (项目门户)
     │   ├─→ contributing.md
     │   └─→ git-workflow.md
     │
-    └─→ reference/ (参考资料)
-        ├─→ prompt-metadata-spec.md
-        ├─→ issues-guide.md
-        └─→ faq.md
+    └─→ issues/ (开发过程记录)
+        └─→ README.md
 ```
 
 ---

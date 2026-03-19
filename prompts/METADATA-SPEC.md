@@ -302,9 +302,8 @@ created: 2026-03-19
 
 ## 相关文档
 
-- [Prompts 管理指南](./prompts-guide.md) - Prompts 的组织结构和使用方式
-- [项目结构说明](./project-structure.md) - 项目目录结构
-- [开发规范](./development-guide.md) - 开发规范和最佳实践
+- [Prompts 管理指南](../docs/guides/prompts-guide.md) - Prompts 的组织结构和使用方式
+- [项目结构说明](../docs/understanding/project-structure.md) - 项目目录结构
 
 ---
 

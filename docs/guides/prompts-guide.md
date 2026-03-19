@@ -2,20 +2,13 @@
 
 本文档说明项目中 Prompts 的组织结构、命名规范和使用方式。
 
-## 目录结构
+完整的项目结构说明请参考：[项目结构说明](../understanding/project-structure.md)
 
-```
-项目根目录/
-├── prompts/                              # 项目级 Prompts（单一数据源）
-│   ├── git_commit_angular_001.md        # 共享 Prompt (scope: shared)
-│   └── prompt_generator_001.md          # 项目私有 Prompt (scope: private)
-│
-└── agents/
-    └── {agent_name}/
-        └── prompts/                      # Agent 的 Prompts 目录
-            ├── agent.md                  # Agent 主提示词（必需）
-            └── {custom_prompt}.md        # Agent 私有的其他 Prompts
-```
+## Prompts 目录组织
+
+项目中的 Prompts 分为两个层级：
+- **项目级 Prompts** (`prompts/`) - 单一数据源，可被多个 Agent 共享
+- **Agent 级 Prompts** (`agents/{agent_name}/prompts/`) - Agent 专属的提示词
 
 ## Prompt 文件命名规范
 
@@ -92,7 +85,7 @@ updated: YYYY-MM-DD
 ---
 ```
 
-**详细的字段定义和使用说明，请参考：[Prompt 元数据规范](./prompt-metadata-spec.md)**
+**详细的字段定义和使用说明，请参考：[Prompt 元数据规范](../prompts/METADATA-SPEC.md)**
 
 ### 字段说明（简要）
 
@@ -266,7 +259,6 @@ my-first-agent/
 
 ## 相关文档
 
-- [Prompt 元数据规范](./prompt-metadata-spec.md) - 元数据字段的权威定义
-- [项目结构说明](./project-structure.md) - 项目目录结构
-- [开发规范](./development-guide.md) - 开发规范和最佳实践
-- [Agent 导出脚本](../scripts/export-agent.py) - 导出脚本源码
+- [Prompt 元数据规范](../../prompts/METADATA-SPEC.md) - 元数据字段的权威定义
+- [项目结构说明](../understanding/project-structure.md) - 项目目录结构
+- [Agent 导出指南](./agent-export-guide.md) - Agent 导出说明
