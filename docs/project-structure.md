@@ -14,9 +14,11 @@ AI-Agents/
 ├── agents/                    # AI Agent 代码目录
 │   └── my first agent/        # 示例 Agent
 │       ├── main.py            # Agent 主程序
-│       └── docs/              # Agent 运行资源
-│           ├── git_commit_angular_001.md
-│           └── prompt_generator_001.md
+│       ├── docs/              # Agent 运行资源
+│       │   ├── git_commit_angular_001.md
+│       │   └── prompt_generator_001.md
+│       └── references/        # 参考项目（可选）
+│           └── README.md      # 参考项目说明
 ├── docs/                      # 项目文档目录
 │   ├── agents/                # 各 Agent 使用文档
 │   │   └── my-first-agent.md  # My First Agent 使用说明
@@ -54,13 +56,17 @@ agents/{agent-name}/
 ├── main.py                    # Agent 主程序
 ├── config.py                  # 配置文件（可选）
 ├── utils.py                   # 工具函数（可选）
-└── docs/                      # Agent 运行资源
-    └── *.md                   # prompt 模板等资源文件
+├── docs/                      # Agent 运行资源
+│   └── *.md                   # prompt 模板等资源文件
+└── references/                # 参考项目和代码示例（可选）
+    ├── README.md              # 参考项目说明
+    └── {参考项目目录}/        # 克隆的参考项目
 ```
 
 **职责：**
 - 存放 Agent 的核心实现代码
 - 存放 Agent 运行时需要的资源文件（如 prompt 模板）
+- 存放参考的其他 Agent 项目和代码示例（可选）
 - 每个 Agent 独立一个子目录，便于管理和维护
 
 #### `docs/` - 项目文档目录
@@ -96,6 +102,30 @@ docs/issues/
 - **User 文档**：`YYYYMMDD_简短描述.md`
 - **AI 文档**：`{关键词-slug}.md`
 
+##### `agents/{agent-name}/references/` - 参考项目目录（可选）
+存放该 Agent 开发过程中参考的其他 Agent 项目和代码示例。
+
+**使用场景：**
+- 学习其他优秀的 Agent 实现
+- 参考类似功能的代码示例
+- 研究不同的技术方案
+
+**使用方法：**
+1. 在 Agent 目录下创建 `references/` 目录
+2. 使用 `git clone` 克隆参考项目
+3. 在 `references/README.md` 中记录项目信息和参考价值
+
+**示例：**
+```bash
+cd "agents/my first agent/references"
+git clone https://github.com/example/agent-project.git
+```
+
+**注意事项：**
+- 参考项目仅供学习，请遵守各项目的开源协议
+- 学习笔记记录在 `docs/issues/notes/user/` 目录下
+- 定期更新参考项目以获取最新代码
+
 ### 配置目录
 
 #### `.kiro/` - Kiro IDE 配置
@@ -116,6 +146,7 @@ docs/issues/
 |----------|----------|----------|----------|
 | Agent 代码 | `agents/{name}/main.py` | 开发者 | 实现逻辑 |
 | Agent 资源 | `agents/{name}/docs/` | AI 系统 | 运行时资源 |
+| Agent 参考 | `agents/{name}/references/` | 开发者 | 学习参考 |
 | Agent 文档 | `docs/agents/{name}.md` | 用户 | 使用说明 |
 | 开发指令 | `.kiro/steering/main.md` | AI 助手 | 开发规范 |
 | 项目说明 | `README.md` | 人类开发者 | 项目介绍 |

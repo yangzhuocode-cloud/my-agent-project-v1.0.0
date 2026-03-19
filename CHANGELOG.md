@@ -6,6 +6,30 @@
 
 ### 新增
 
+- 新增 `agents/my first agent/references/` 目录，用于存放参考的 Agent 项目
+- 添加两个参考项目说明：
+  - learn-claude-code：从零构建类似 Claude Code 的 Agent
+  - ai-agents-from-scratch：使用纯 Python 构建 AI Agent 的完整课程
+- 新增 references 目录使用规范和说明文档
+
+### 优化
+
+- 更新 `.kiro/steering/main.md`，添加 references 目录使用规范
+- 更新 `docs/project-structure.md`，完善 Agent 目录结构说明
+- 更新 `docs/agents/my-first-agent.md`，添加参考项目说明
+- 更新 `README.md`，在项目结构中展示 references 目录
+
+### 文档
+
+- 规范化 references 目录的使用方法和命名规则
+- 明确参考项目的克隆和管理流程
+
+---
+
+## 2026-03-19（早期）
+
+### 新增
+
 - 新增开发过程记录目录结构 `docs/issues/`
 - 支持分类记录问题（problems）、笔记（notes）、想法（ideas）
 - 区分用户和 AI 的记录内容

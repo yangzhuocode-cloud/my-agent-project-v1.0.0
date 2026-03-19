@@ -159,6 +159,16 @@ def handle_command(self, user_input):
 
 - 主程序：`agents/my first agent/main.py`
 - Prompt 模板：`agents/my first agent/docs/`
+- 参考项目：`agents/my first agent/references/`
+
+## 参考项目
+
+本 Agent 开发过程中参考了以下优秀项目：
+
+1. **learn-claude-code** - 从零构建类似 Claude Code 的 Agent
+2. **ai-agents-from-scratch** - 使用纯 Python 构建 AI Agent 的完整课程
+
+详细信息请查看：`agents/my first agent/references/README.md`
 
 ## 依赖
 

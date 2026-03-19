@@ -122,10 +122,27 @@ AI-Agents/
 ### 文件职责说明
 
 - `agents/{agent-name}/docs/` - 存放 Agent 运行时需要的资源文件（如 prompt 模板）
+- `agents/{agent-name}/references/` - 存放参考的其他 Agent 项目和代码示例（可选）
 - `docs/agents/{agent-name}.md` - 存放面向用户的使用文档和说明
 - `docs/issues/problems/` - 存放开发过程中遇到的问题和解决方案
 - `docs/issues/notes/` - 存放知识笔记、学习记录和技术理解
 - `docs/issues/ideas/` - 存放新想法、优化思路和未来规划
+
+### References 目录使用规范
+
+每个 Agent 可以有自己的 `references/` 目录，用于存放参考的其他 Agent 项目和代码示例。
+
+**使用方法**：
+1. 在 Agent 目录下创建 `references/` 目录
+2. 使用 `git clone` 克隆参考项目到该目录
+3. 在 `references/README.md` 中记录项目信息和参考价值
+4. 学习笔记记录在 `docs/issues/notes/user/` 目录下
+
+**示例**：
+```bash
+cd "agents/my first agent/references"
+git clone https://github.com/example/agent-project.git
+```
 
 ### 开发记录文件命名规范
 
