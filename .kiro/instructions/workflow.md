@@ -1,0 +1,221 @@
+# AI 助手工作流程
+
+> 🤖 **目标读者**: AI 助手  
+> 🎯 **文档类型**: 执行指令
+
+本文件定义 AI 助手在开发过程中的自动化工作流程。
+
+## 核心工作流程
+
+当用户要求修改代码或添加功能时，按以下步骤执行：
+
+### 1. 执行用户请求
+
+- 理解用户需求
+- 修改或创建代码
+- 添加中文注释和文档字符串
+- 保持代码简洁清晰
+
+### 2. 判断是否需要更新文档
+
+根据修改类型，判断需要更新哪些文档：
+
+#### 更新 `docs/understanding/project-structure.md`（如适用）
+- 新增或删除目录 → 更新完整目录树
+- 调整目录层级 → 更新目录结构
+- 修改文件职责 → 更新职责说明
+- 新增文件类型 → 更新扩展规范
+
+#### 更新 `.kiro/instructions/` 文件（如适用）
+- 新增或修改开发规范 → 更新 `coding-standards.md`
+- 新增或修改工作流程 → 更新 `workflow.md`（本文件）
+- 新增或修改操作边界 → 更新 `boundaries.md`
+
+#### 更新 `README.md`（如适用）
+- 新增或删除 Agent → 更新"当前 Agents"章节
+- Agent 功能重大变化 → 更新对应 Agent 描述
+- 项目定位调整 → 更新"项目简介"章节
+
+#### 更新 Agent 文档（如适用）
+- 在 `docs/agents/{agent-name}.md` 中：
+  - 更新功能特性说明
+  - 更新使用方法和示例
+  - 更新配置参数说明
+
+#### 更新其他相关文档（如适用）
+- 配置参数变更 → `docs/guides/configuration.md`
+- 使用流程变更 → `docs/guides/quick-start.md`
+- Git 工作流程变更 → `docs/development/git-workflow.md`
+- 新增常见问题 → `docs/reference/faq.md`
+
+### 3. 自动记录问题（如遇到）
+
+执行过程中遇到错误或问题时：
+
+#### 查重流程
+1. 提取问题关键词（2-4 个英文词）
+2. 生成 slug（小写，连字符连接）
+3. 使用 `fileSearch` 搜索 `docs/issues/problems/ai/{slug}.md`
+4. 判断：
+   - 找到 → 更新文档，添加"重复发生记录"
+   - 未找到 → 创建新文档
+
+#### 创建新问题文档
+- 文件名：`docs/issues/problems/ai/{slug}.md`
+- 必须包含完整的 YAML 头文件
+- 必须包含所有必填章节
+- `occurrences` 初始值为 1
+- `first_occurred` 和 `last_updated` 设置为当前日期
+
+#### 更新已有问题文档
+- 在"重复发生记录"章节末尾添加新记录
+- 更新 YAML 中的 `last_updated` 为当前日期
+- 更新 `occurrences` 数值加 1
+
+### 4. 响应用户记录请求
+
+用户明确要求记录时：
+
+- 记录问题 → `docs/issues/problems/user/YYYYMMDD_描述.md`
+- 记录笔记 → `docs/issues/notes/user/YYYYMMDD_描述.md`
+- 记录想法 → `docs/issues/ideas/user/YYYYMMDD_描述.md`
+
+### 5. 提交变更
+
+- 使用规范的中文提交信息（Angular 规范）
+- 提交信息必须用双引号包裹
+- 引用 `#[[prompt:git_commit_angular_001]]` 规范
+
+## 新增 Agent 流程
+
+完整的新增 Agent 流程：
+
+### 1. 创建 Agent 目录结构
+```
+agents/{agent-name}/
+├── main.py
+├── config.json
+├── .export.json
+└── prompts/
+    └── agent.md
+```
+
+### 2. 实现 Agent 核心功能
+- 编写 `main.py`
+- 配置 `config.json`
+- 创建主提示词 `agent.md`
+
+### 3. 创建使用文档
+- 在 `docs/agents/{agent-name}.md` 创建详细文档
+- 包含功能介绍、使用方法、配置说明
+
+### 4. 更新项目文档
+- 更新 `README.md` 的"当前 Agents"章节
+- 更新 `docs/understanding/project-structure.md`（如有新目录类型）
+
+### 5. 提交变更
+- 使用 `feat(agent): 添加 {agent-name}` 格式提交
+
+## 文档同步规范
+
+### 核心原则
+
+- **`.kiro/steering/main.md`**：给 AI 助手读的开发指令总入口
+- **`.kiro/instructions/`**：详细的 AI 指令文件（不会自动加载）
+- **`docs/`**：给人类开发者读的理解性文档
+- **`README.md`**：项目门户和快速导航
+
+### 同步触发条件
+
+| 修改类型 | 需要同步的文档 |
+|---------|---------------|
+| 新增/删除目录 | `docs/understanding/project-structure.md` |
+| 修改开发规范 | `.kiro/instructions/coding-standards.md` |
+| 修改工作流程 | `.kiro/instructions/workflow.md` |
+| 新增/删除 Agent | `README.md`, `docs/agents/{name}.md` |
+| 修改配置参数 | `docs/guides/configuration.md` |
+| 修改使用流程 | `docs/guides/quick-start.md` |
+
+## 问题记录规范
+
+### AI 问题文档格式
+
+```yaml
+---
+slug: 问题的唯一标识符
+keywords: [关键词1, 关键词2]
+first_occurred: YYYY-MM-DD
+last_updated: YYYY-MM-DD
+occurrences: N
+---
+
+# 问题标题
+
+## 问题描述
+详细说明问题现象
+
+## 问题原因分析
+分析根本原因
+
+## 解决方案
+具体解决方法
+
+## 重复发生记录
+
+### 第 1 次：YYYY-MM-DD HH:MM
+- **场景**：具体场景
+- **处理**：如何解决
+
+### 第 2 次：YYYY-MM-DD HH:MM
+- **场景**：具体场景
+- **处理**：如何解决
+- **反思**：为什么再次发生
+```
+
+### 触发条件
+
+自动创建或更新问题文档的情况：
+
+1. **命令执行失败**
+   - Git 命令报错
+   - Shell 命令执行失败
+   - API 调用失败
+
+2. **重复性错误**
+   - 同一错误在本次会话中第二次出现
+   - 更新已有文档，添加重复记录
+
+3. **配置或环境问题**
+   - 依赖缺失
+   - 配置错误
+   - 权限问题
+
+## Prompts 引用处理
+
+### 开发时引用解析
+
+```
+读取 agent.md
+    ↓
+发现 #[[prompt:id]]
+    ↓
+在 agents/{name}/prompts/ 中查找
+    ↓ (未找到)
+在项目 prompts/ 中查找
+    ↓ (找到)
+加载并使用
+```
+
+### 导出时引用处理
+
+由导出脚本自动处理：
+1. 扫描所有 Prompt 文件
+2. 提取 `#[[prompt:xxx]]` 引用
+3. 复制被引用的共享 Prompts
+4. 保持引用语法不变
+
+## 相关文档
+
+- [开发边界](./boundaries.md) - 开发边界和禁止事项
+- [代码规范](./coding-standards.md) - 代码规范细节
+- [提交规范](../../prompts/git_commit_angular_001.md) - Git 提交规范

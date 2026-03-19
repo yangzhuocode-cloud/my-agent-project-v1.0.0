@@ -1,29 +1,40 @@
 # AI Agents 项目
 
-一个通用的 AI Agent 开发和管理项目，用于构建、组织和维护各类 AI Agent。
+一个灵活、可扩展的 AI Agent 开发框架，支持快速创建、管理和导出 AI Agent。
 
-## 项目简介
+## 项目愿景
 
-本项目提供了一个灵活的框架，用于开发和管理不同类型的 AI Agent。每个 Agent 都是独立的模块，可以根据具体需求进行定制和扩展。
+构建一个开发者友好的 AI Agent 框架，让开发者能够：
+- 快速创建和部署 AI Agent
+- 通过引用机制复用 Prompts 和配置
+- 将 Agent 导出为完全独立的可运行包
+- 记录和沉淀开发过程中的知识
+
+## 核心特性
+
+- **单一数据源** - 共享 Prompts 只维护一份，通过引用使用
+- **开发与导出分离** - 开发时灵活引用，导出后完全独立
+- **人机分离的文档** - 人类看理解性文档，AI 看执行性指令
+- **知识沉淀机制** - 自动记录问题、笔记和想法
 
 ## 项目结构
 
 ```
 AI-Agents/
-├── agents/                    # AI Agent 代码目录
-│   └── my first agent/       # 示例对话 Agent
-│       ├── main.py           # Agent 主程序
-│       ├── docs/             # Agent 运行资源
-│       └── references/       # Agent 特定参考项目（可选）
-├── docs/                     # 项目文档目录
-│   ├── agents/               # Agent 使用文档
-│   └── issues/               # 开发过程记录
-├── references/               # 项目级通用参考资源
-│   └── ollama-python/        # Ollama Python SDK
-└── .kiro/                    # Kiro IDE 配置
+├── agents/           # AI Agent 代码
+├── prompts/          # 项目级 Prompts（单一数据源）
+├── docs/             # 人类文档
+│   ├── understanding/    # 理解项目
+│   ├── guides/          # 使用指南
+│   ├── development/     # 开发指南
+│   └── reference/       # 参考资料
+└── .kiro/steering/   # AI 指令
 ```
 
-完整的项目结构和文件职责说明请参考：[项目结构说明](./docs/project-structure.md)
+完整的项目结构和设计理念请参考：
+- [项目结构说明](./docs/understanding/project-structure.md)
+- [设计理念](./docs/understanding/design-philosophy.md)
+- [架构设计](./docs/understanding/architecture.md)
 
 ## 当前 Agents
 
@@ -37,44 +48,52 @@ AI-Agents/
 
 ## 快速开始
 
-详细的安装、配置和使用说明，请参考：
+```bash
+# 1. 安装依赖
+pip install requests
 
-- [快速开始指南](./docs/quick-start.md)
-- [开发规范](./docs/development-guide.md)
-- [配置说明](./docs/configuration.md)
+# 2. 运行示例 Agent
+cd "agents/my first agent"
+python main.py
+```
 
-## Agent 导出功能
+详细说明请参考：[快速开始指南](./docs/guides/quick-start.md)
 
-项目提供了 Agent 导出功能，可以将开发的 Agent 导出为完全独立的包：
+## Agent 导出
+
+将 Agent 导出为完全独立的可运行包：
 
 ```bash
 python scripts/export-agent.py "my first agent"
 ```
 
-导出的 Agent 包含所有必需的代码、配置和 Prompts，无需修改即可运行。
+导出的 Agent 包含所有必需的代码、配置和 Prompts，可直接分享和运行。
 
-详细说明请参考：[Agent 导出功能使用指南](./docs/agent-export-guide.md)
+详细说明：[Agent 导出指南](./docs/guides/agent-export-guide.md)
 
-## 文档
+## 文档导航
 
-📖 **[完整文档索引](./docs/INDEX.md)** - 快速查找所有文档
+📖 **[完整文档索引](./docs/INDEX.md)**
 
-### 快速入门
-- [快速开始](./docs/quick-start.md) - 环境配置和基本使用
-- [配置说明](./docs/configuration.md) - 参数配置详解
+### 理解项目
+- [设计理念](./docs/understanding/design-philosophy.md) - 为什么这样设计
+- [架构设计](./docs/understanding/architecture.md) - 技术架构和组件
+- [项目结构](./docs/understanding/project-structure.md) - 目录结构详解
+
+### 使用指南
+- [快速开始](./docs/guides/quick-start.md) - 快速上手
+- [配置说明](./docs/guides/configuration.md) - 参数配置
+- [Prompts 管理](./docs/guides/prompts-guide.md) - Prompts 使用
+- [Agent 导出](./docs/guides/agent-export-guide.md) - 导出独立包
 
 ### 开发指南
-- [开发规范](./docs/development-guide.md) - 代码规范和提交规范
-- [项目结构说明](./docs/project-structure.md) - 目录结构和文件职责
-- [Prompts 管理指南](./docs/prompts-guide.md) - Prompts 组织和使用
-- [Prompt 元数据规范](./docs/prompt-metadata-spec.md) - 元数据字段定义
+- [贡献指南](./docs/development/contributing.md) - 如何贡献
+- [Git 工作流程](./docs/development/git-workflow.md) - 分支和提交
 
-### 工作流程
-- [Git 工作流程](./docs/git-workflow.md) - 分支管理和工作流程
-- [开发过程记录指南](./docs/issues-guide.md) - 问题、笔记和想法记录
-
-### 其他
-- [常见问题](./docs/faq.md) - 问题排查和解决方案
+### 参考资料
+- [Prompt 元数据规范](./docs/reference/prompt-metadata-spec.md) - 元数据定义
+- [开发记录指南](./docs/reference/issues-guide.md) - 问题记录
+- [常见问题](./docs/reference/faq.md) - FAQ
 
 ## 更新日志
 
