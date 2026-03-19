@@ -118,7 +118,7 @@ for chunk in response.iter_lines():
 
 ### Q: 项目文档在哪里？
 
-A: 所有文档位于 `docs/` 目录：
+A: 所有文档位于 `docs/` 目录，完整结构请参考 [项目结构说明](./project-structure.md)：
 - [快速开始](./quick-start.md)
 - [配置说明](./configuration.md)
 - [开发规范](./development-guide.md)

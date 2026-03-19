@@ -23,7 +23,22 @@ inclusion: auto
 
 当项目发生任何修改时，根据修改类型同步更新对应文档：
 
-#### 1. `.kiro/steering/main.md` - AI 助手开发指令
+**重要**：项目结构信息已集中管理在 `docs/project-structure.md`，其他文档使用简化版本+引用链接的方式。
+
+#### 1. `docs/project-structure.md` - 项目结构集中文档
+
+**何时更新：**
+- 新增或删除目录
+- 调整目录层级结构
+- 修改文件职责说明
+- 新增或删除文件类型
+
+**更新内容：**
+- 完整的项目目录树
+- 各目录和文件的职责说明
+- 命名规范和扩展规范
+
+#### 2. `.kiro/steering/main.md` - AI 助手开发指令
 
 **何时更新：**
 - 新增或修改开发规范（代码规范、命名规范等）
@@ -39,7 +54,7 @@ inclusion: auto
 - 文档同步规则
 - 新增 Agent 的标准流程
 
-#### 2. `README.md` - 项目说明文档
+#### 3. `README.md` - 项目说明文档
 
 **何时更新：**
 - 新增或删除 Agent
@@ -53,7 +68,7 @@ inclusion: auto
 - 文档导航链接
 - 更新日志（记录重要变更）
 
-#### 3. `docs/agents/{agent-name}.md` - Agent 详细文档
+#### 4. `docs/agents/{agent-name}.md` - Agent 详细文档
 
 **何时更新：**
 - Agent 功能特性变更
@@ -67,7 +82,7 @@ inclusion: auto
 - 配置参数说明
 - 扩展开发指南
 
-#### 4. 其他配置文档
+#### 5. 其他配置文档
 
 - `docs/configuration.md` - 配置参数变更时更新
 - `docs/quick-start.md` - 使用流程变更时更新
@@ -90,34 +105,19 @@ inclusion: auto
 
 ## 目录结构规范
 
-### Agent 组织方式
+### 项目结构概览
 
 ```
-agents/{agent-name}/
-├── main.py                    # Agent 主程序
-└── docs/                      # Agent 运行资源（prompt 模板等）
-    └── *.md                   # 各类 prompt 模板文件
-
-docs/
-├── agents/
-│   └── {agent-name}.md       # Agent 使用文档（面向用户）
-├── issues/                    # 开发过程记录
-│   ├── problems/              # 问题记录
-│   │   ├── user/              # 用户提出的问题
-│   │   └── ai/                # AI 开发过程中的问题
-│   ├── notes/                 # 知识笔记和理解
-│   │   ├── user/              # 用户的学习笔记
-│   │   └── ai/                # AI 的学习和成长记录
-│   └── ideas/                 # 想法和思路
-│       ├── user/              # 用户的想法和思路
-│       └── ai/                # AI 的想法和优化思路
-├── configuration.md           # 配置说明
-├── development-guide.md       # 开发规范
-├── git-workflow.md            # Git 工作流程
-├── issues-guide.md            # 开发过程记录指南
-├── quick-start.md            # 快速开始
-└── faq.md                    # 常见问题
+AI-Agents/
+├── agents/                    # AI Agent 代码目录
+│   └── [agent-name]/         # 各 Agent 实现
+├── docs/                     # 项目文档目录
+│   ├── agents/               # Agent 使用文档
+│   └── issues/               # 开发过程记录
+└── .kiro/                    # Kiro IDE 配置
 ```
+
+完整的项目结构和文件职责说明请参考：[项目结构说明](./docs/project-structure.md)
 
 ### 文件职责说明
 
@@ -260,32 +260,38 @@ AI 助手在以下情况下应自动创建或更新问题文档：
    - 保持代码简洁清晰
    - 添加中文注释和文档字符串
 
-2. **判断并更新 `.kiro/steering/main.md`**（如适用）
+2. **判断并更新 `docs/project-structure.md`**（如适用）
+   - 新增或删除目录 → 更新完整目录树
+   - 调整目录层级 → 更新目录结构
+   - 修改文件职责 → 更新职责说明
+   - 新增文件类型 → 更新扩展规范
+
+3. **判断并更新 `.kiro/steering/main.md`**（如适用）
    - 新增或修改了开发规范 → 更新"代码规范"章节
    - 新增或修改了工作流程 → 更新"AI 助手工作流程"章节
    - 新增或修改了目录结构 → 更新"目录结构规范"章节
    - 新增或修改了文档同步规则 → 更新"文档同步规范"章节
 
-3. **判断并更新 `README.md`**（如适用）
+4. **判断并更新 `README.md`**（如适用）
    - 新增或删除 Agent → 更新"当前 Agents"章节
    - Agent 功能重大变化 → 更新对应 Agent 描述
    - 项目定位调整 → 更新"项目简介"章节
    - 任何重要变更 → 更新"更新日志"章节
 
-4. **同步更新 `docs/agents/{agent-name}.md`**
+5. **同步更新 `docs/agents/{agent-name}.md`**
    - 更新功能特性说明
    - 更新使用方法和示例
    - 更新配置参数说明
    - 更新扩展开发指南
 
-5. **根据需要更新其他相关配置文档**
+6. **根据需要更新其他相关配置文档**
    - 配置参数变更 → `docs/configuration.md`
    - 使用流程变更 → `docs/quick-start.md`
    - 开发规范变更 → `docs/development-guide.md`
    - Git 工作流程变更 → `docs/git-workflow.md`
    - 新增常见问题 → `docs/faq.md`
 
-6. **自动记录问题（如遇到）**
+7. **自动记录问题（如遇到）**
    - 执行过程中遇到错误或问题 → 先查重，再决定创建或更新
    - 查重流程：
      1. 提取问题关键词，生成 slug
@@ -295,13 +301,13 @@ AI 助手在以下情况下应自动创建或更新问题文档：
    - 文档必须包含完整的 YAML 头文件和所有必填章节
    - 同一个问题不重复创建文档，只更新重复记录
 
-7. **响应用户记录请求**
+8. **响应用户记录请求**
    - 用户要求记录问题 → 在 `docs/issues/problems/user/` 下创建，使用时间前缀命名
    - 用户要求记录笔记 → 在 `docs/issues/notes/user/` 下创建，使用时间前缀命名
    - 用户要求记录想法 → 在 `docs/issues/ideas/user/` 下创建，使用时间前缀命名
    - 文件命名格式：`YYYYMMDD_简短描述.md`
 
-8. **提交变更**
+9. **提交变更**
    - 使用规范的中文提交信息（Angular 规范）
    - 提交信息必须用双引号包裹
 
@@ -311,5 +317,6 @@ AI 助手在以下情况下应自动创建或更新问题文档：
 2. 实现 Agent 核心功能（main.py）
 3. 在 `agents/{agent-name}/docs/` 下创建 prompt 模板（如需要）
 4. 在 `docs/agents/` 下创建详细使用文档
-5. 在 README.md 的"当前 Agents"部分添加说明
-6. 更新 README.md 的更新日志
+5. 更新 `docs/project-structure.md` 中的目录结构（如有新的目录类型）
+6. 在 README.md 的"当前 Agents"部分添加说明
+7. 更新 README.md 的更新日志

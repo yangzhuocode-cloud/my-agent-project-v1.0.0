@@ -83,31 +83,19 @@ Closes #10
 
 ## 项目结构规范
 
-### Agent 目录结构
+### 核心目录概览
 
 ```
-agents/
-└── [agent-name]/
-    ├── main.py           # 主程序
-    ├── config.py         # 配置文件（可选）
-    ├── utils.py          # 工具函数（可选）
-    └── docs/             # Agent 专属文档
-        └── *.md
+AI-Agents/
+├── agents/                    # AI Agent 代码目录
+│   └── [agent-name]/         # 各 Agent 实现
+├── docs/                     # 项目文档目录
+│   ├── agents/               # Agent 使用文档
+│   └── issues/               # 开发过程记录
+└── .kiro/                    # Kiro IDE 配置
 ```
 
-### 文档目录结构
-
-```
-docs/
-├── quick-start.md           # 快速开始
-├── configuration.md         # 配置说明
-├── development-guide.md     # 开发规范
-├── git-workflow.md          # Git 工作流程
-├── faq.md                   # 常见问题
-├── issues-guide.md          # 开发过程记录指南
-└── agents/                  # 各 Agent 详细文档
-    └── [agent-name].md
-```
+完整的项目结构和文件职责说明请参考：[项目结构说明](./project-structure.md)
 
 ## 开发工作流程
 

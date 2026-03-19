@@ -6,6 +6,20 @@
 
 本项目提供了一个灵活的框架，用于开发和管理不同类型的 AI Agent。每个 Agent 都是独立的模块，可以根据具体需求进行定制和扩展。
 
+## 项目结构
+
+```
+AI-Agents/
+├── agents/                    # AI Agent 代码目录
+│   └── my first agent/       # 示例对话 Agent
+├── docs/                     # 项目文档目录
+│   ├── agents/               # Agent 使用文档
+│   └── issues/               # 开发过程记录
+└── .kiro/                    # Kiro IDE 配置
+```
+
+完整的项目结构和文件职责说明请参考：[项目结构说明](./docs/project-structure.md)
+
 ## 当前 Agents
 
 ### 1. My First Agent
