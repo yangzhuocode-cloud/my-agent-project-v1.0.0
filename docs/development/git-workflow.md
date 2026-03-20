@@ -17,11 +17,68 @@
 
 每个新 Agent 在独立分支开发，开发完成后合并到主分支。
 
+## Git Worktree 与远程仓库
+
+### 重要说明
+
+**Worktree 是本地工作方式，不会推送到远程**：
+- ✅ 推送到远程的是分支（master、feature/xxx）
+- ❌ worktrees/ 目录不会推送（已在 .gitignore 中）
+- ❌ 本地的文件夹结构不会同步到远程
+
+### 其他开发者如何使用
+
+**场景 1：克隆后想使用 Worktree 模式**
+
+```bash
+# 1. 克隆项目
+git clone https://github.com/user/my-agent-project.git
+cd my-agent-project
+
+# 2. 运行自动设置脚本
+.\scripts\setup-worktrees.ps1  # Windows
+bash scripts/setup-worktrees.sh  # Linux/Mac
+
+# 3. 自动创建所有 feature 分支的 worktree
+# 现在本地结构和原作者一样了
+```
+
+**场景 2：传统方式（不使用 Worktree）**
+
+```bash
+# 克隆后直接切换分支工作
+git clone https://github.com/user/my-agent-project.git
+cd my-agent-project
+
+# 切换到 feature 分支
+git checkout feature/my-first-agent
+# 开发...
+```
+
+### 自动设置脚本
+
+项目提供了 `scripts/setup-worktrees.ps1` 和 `setup-worktrees.sh`：
+
+**功能**：
+- 自动检测所有远程 feature 分支
+- 为每个分支创建对应的 worktree
+- 跳过已存在的 worktree
+- 输出设置结果和使用提示
+
+**使用方法**：
+```bash
+# Windows
+.\scripts\setup-worktrees.ps1
+
+# Linux/Mac
+bash scripts/setup-worktrees.sh
+```
+
 ## Git Worktree 工作模式
 
 为了避免频繁切换分支，本项目使用 Git Worktree 实现多分支并行开发。
 
-### 目录结构
+### Worktree 目录结构
 
 ```
 my-agent-project-v1.0.0/              ← master 分支（主目录）
