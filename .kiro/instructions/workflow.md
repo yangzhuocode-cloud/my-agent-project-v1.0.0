@@ -129,6 +129,44 @@ agents/my-agent/
 
 ### 5. 提交变更
 
+#### 分支判断规则
+
+提交代码前，必须判断应该提交到哪个分支：
+
+**提交到 master 分支**（框架级别）：
+- 项目文档更新（`docs/` 下的通用文档）
+- 框架配置文件（`.kiro/`、`.gitignore`、`README.md` 等）
+- 共享资源（`prompts/`、`scripts/`）
+- Git 工作流程相关（`docs/development/git-workflow.md`）
+- 学习笔记（`docs/issues/python-learning/`、`docs/issues/git-learning/`）
+- 项目结构文档（`docs/understanding/project-structure.md`）
+
+**提交到 feature 分支**（Agent 级别）：
+- Agent 代码（`agents/{agent-name}/main.py`）
+- Agent 配置（`agents/{agent-name}/config.json`）
+- Agent 提示词（`agents/{agent-name}/prompts/`）
+- Agent 文档（`docs/agents/{agent-name}.md`）
+- Agent 特定的问题记录
+
+**判断逻辑**：
+1. 如果用户明确指定分支 → 使用指定分支
+2. 如果修改的是 `agents/{agent-name}/` 下的文件 → 使用对应的 feature 分支
+3. 如果修改的是框架文件或通用文档 → 使用 master 分支
+4. 如果同时修改了框架和 Agent → 分两次提交
+
+**当前项目的 Worktree 结构**：
+```
+my-agent-project-v1.0.0/              ← master 分支（主目录）
+└── worktrees/
+    └── my-first-agent/               ← feature/my-first-agent 分支
+```
+
+**提交位置**：
+- master 分支：在主目录 `my-agent-project-v1.0.0/` 提交
+- feature 分支：在 `worktrees/my-first-agent/` 提交
+
+#### 提交规范
+
 - 使用规范的中文提交信息（Angular 规范）
 - 提交信息必须用双引号包裹
 - 引用 `#[[prompt:git_commit_angular_001]]` 规范

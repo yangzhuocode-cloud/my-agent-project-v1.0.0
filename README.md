@@ -34,6 +34,8 @@
 
 ## 快速开始
 
+### 基础使用
+
 ```bash
 # 1. 安装依赖
 pip install requests
@@ -43,7 +45,30 @@ cd "agents/my first agent"
 python main.py
 ```
 
-详细说明请参考：[快速开始指南](./docs/guides/quick-start.md)
+### 使用 Git Worktree 开发
+
+本项目使用 Git Worktree 实现多分支并行开发，避免频繁切换分支。
+
+```bash
+# 查看当前 worktree
+git worktree list
+
+# 在 worktree 中开发 agent
+cd worktrees/my-first-agent
+# 编辑代码...
+git commit -m "feat(agent): 新功能"
+
+# 在主目录开发框架
+cd ../..
+# 编辑框架代码...
+git commit -m "docs: 更新文档"
+
+# 同步 master 更新到所有 agent 分支
+.\scripts\sync-master-to-worktrees.ps1  # Windows
+bash scripts/sync-master-to-worktrees.sh  # Linux/Mac
+```
+
+详细说明请参考：[Git 工作流程](./docs/development/git-workflow.md)
 
 ## Agent 导出
 

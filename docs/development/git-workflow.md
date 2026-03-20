@@ -4,7 +4,7 @@
 
 ## 分支策略
 
-### 主分支（main）
+### 主分支（master）
 
 主分支只包含项目框架和通用内容：
 
@@ -16,6 +16,71 @@
 ### Agent 开发分支
 
 每个新 Agent 在独立分支开发，开发完成后合并到主分支。
+
+## Git Worktree 工作模式
+
+为了避免频繁切换分支，本项目使用 Git Worktree 实现多分支并行开发。
+
+### 目录结构
+
+```
+my-agent-project-v1.0.0/              ← master 分支（主目录）
+├── .git/                             ← Git 仓库
+├── worktrees/                        ← 存放所有 agent 开发分支
+│   ├── my-first-agent/               ← feature/my-first-agent 分支
+│   └── another-agent/                ← feature/another-agent 分支
+├── agents/
+├── docs/
+└── README.md
+```
+
+### 工作原理
+
+- 主目录固定在 master 分支，用于框架开发
+- 每个 agent 分支在 `worktrees/` 下有独立的工作目录
+- 所有目录共享同一个 Git 仓库（`.git/`）
+- 不需要切换分支，可以同时编辑多个分支
+
+### 创建新 Agent 的 Worktree
+
+```bash
+# 在主目录执行
+git worktree add worktrees/<agent-name> feature/<agent-name>
+
+# 示例
+git worktree add worktrees/translator feature/translator
+```
+
+### 查看所有 Worktree
+
+```bash
+git worktree list
+```
+
+### 删除 Worktree
+
+```bash
+# Agent 开发完成并合并后，可以删除 worktree
+git worktree remove worktrees/<agent-name>
+```
+
+### 自动同步 Master 更新
+
+当在 master 分支提交框架更新后，需要同步到所有 agent 分支：
+
+```bash
+# Windows (PowerShell)
+.\scripts\sync-master-to-worktrees.ps1
+
+# Linux/Mac (Bash)
+bash scripts/sync-master-to-worktrees.sh
+```
+
+脚本会自动：
+1. 检查所有 worktree
+2. 将 master 的更新合并到每个分支
+3. 报告成功和失败的情况
+4. 如果有冲突，提示手动解决
 
 ## 分支命名规范
 
@@ -41,18 +106,86 @@ feature/agent-<agent-name>
 
 ## 开发工作流程
 
-### 1. 创建新 Agent 分支
+### 方式 A：使用 Worktree（推荐）
+
+#### 1. 创建新 Agent 分支和 Worktree
+
+```bash
+# 在主目录（master 分支）创建新分支
+git checkout -b feature/translator
+
+# 为新分支创建 worktree
+git worktree add worktrees/translator feature/translator
+
+# 切回 master
+git checkout master
+```
+
+#### 2. 在 Worktree 中开发 Agent
+
+```bash
+# 进入 agent 的工作目录
+cd worktrees/translator
+
+# 创建 Agent 文件
+mkdir -p "agents/translator"
+# 编写代码...
+
+# 提交更改
+git add .
+git commit -m "feat(agent): 添加翻译 Agent 基础功能"
+git push -u origin feature/translator
+```
+
+#### 3. 在主目录开发框架
+
+```bash
+# 在主目录（master 分支）
+cd ../../  # 回到主目录
+
+# 修改框架文档
+vim README.md
+
+# 提交框架更新
+git add README.md
+git commit -m "docs: 更新框架文档"
+git push
+```
+
+#### 4. 同步 Master 更新到 Agent 分支
+
+```bash
+# 在主目录执行同步脚本
+.\scripts\sync-master-to-worktrees.ps1  # Windows
+# 或
+bash scripts/sync-master-to-worktrees.sh  # Linux/Mac
+```
+
+#### 5. 合并 Agent 到 Master
+
+```bash
+# 在主目录（master 分支）
+git merge feature/translator
+git push
+
+# 删除 worktree（可选）
+git worktree remove worktrees/translator
+```
+
+### 方式 B：传统分支切换（不推荐）
+
+#### 1. 创建新 Agent 分支
 
 ```bash
 # 确保主分支是最新的
-git checkout main
-git pull origin main
+git checkout master
+git pull origin master
 
 # 创建并切换到新分支
-git checkout -b feature/agent-translator
+git checkout -b feature/translator
 ```
 
-### 2. 开发 Agent
+#### 2. 开发 Agent
 
 在分支上进行开发：
 
@@ -66,45 +199,45 @@ git add .
 git commit -m "feat(agent): 添加翻译 Agent 基础功能"
 ```
 
-### 3. 推送到远程仓库
+#### 3. 推送到远程仓库
 
 ```bash
 # 首次推送需要设置上游分支
-git push -u origin feature/agent-translator
+git push -u origin feature/translator
 
 # 后续推送
 git push
 ```
 
-### 4. 合并到主分支
+#### 4. 合并到主分支
 
 开发完成并测试通过后：
 
 ```bash
 # 切换到主分支
-git checkout main
+git checkout master
 
 # 拉取最新代码
-git pull origin main
+git pull origin master
 
 # 合并 Agent 分支
-git merge feature/agent-translator
+git merge feature/translator
 
 # 推送到远程
-git push origin main
+git push origin master
 ```
 
-### 5. 分支管理
+#### 5. 分支管理
 
 ```bash
 # 保留分支用于后续维护
-git push origin feature/agent-translator
+git push origin feature/translator
 
 # 或删除已合并的本地分支
-git branch -d feature/agent-translator
+git branch -d feature/translator
 
 # 删除远程分支（可选）
-git push origin --delete feature/agent-translator
+git push origin --delete feature/translator
 ```
 
 ## 提交规范
@@ -152,38 +285,68 @@ git push origin --delete feature/agent-translator
 
 ## 常见场景
 
-### 场景 1：开发新 Agent
+### 场景 1：开发新 Agent（使用 Worktree）
 
 ```bash
-git checkout main
-git pull
-git checkout -b feature/agent-new-feature
+# 1. 创建分支和 worktree
+git checkout -b feature/new-agent
+git worktree add worktrees/new-agent feature/new-agent
+git checkout master
+
+# 2. 在 worktree 中开发
+cd worktrees/new-agent
 # 开发...
 git add .
 git commit -m "feat(agent): 添加新功能"
-git push -u origin feature/agent-new-feature
+git push -u origin feature/new-agent
+
+# 3. 回到主目录
+cd ../..
 ```
 
-### 场景 2：修复 Bug
+### 场景 2：框架更新后同步到所有 Agent
 
 ```bash
-git checkout main
-git pull
-git checkout -b fix/agent-bug-description
+# 1. 在主目录提交框架更新
+git add README.md
+git commit -m "docs: 更新框架文档"
+git push
+
+# 2. 自动同步到所有 worktree
+.\scripts\sync-master-to-worktrees.ps1
+```
+
+### 场景 3：修复 Agent Bug
+
+```bash
+# 直接在对应的 worktree 中修复
+cd worktrees/my-first-agent
 # 修复...
 git add .
 git commit -m "fix(agent): 修复某个问题"
-git push -u origin fix/agent-bug-description
+git push
 ```
 
-### 场景 3：更新文档
+### 场景 4：在 VS Code 中同时编辑多个分支
 
 ```bash
-git checkout main
-# 修改文档...
-git add docs/
-git commit -m "docs: 更新 Agent 使用文档"
+# 方式 1：打开多个窗口
+code .                           # 主目录（master）
+code worktrees/my-first-agent    # agent 分支
+
+# 方式 2：添加到工作区
+# File → Add Folder to Workspace → 选择 worktrees/my-first-agent
+```
+
+### 场景 5：合并 Agent 到 Master
+
+```bash
+# 在主目录
+git merge feature/my-first-agent
 git push
+
+# 可选：删除 worktree
+git worktree remove worktrees/my-first-agent
 ```
 
 ## 相关文档
