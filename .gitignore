@@ -27,6 +27,9 @@ wheels/
 .installed.cfg
 *.egg
 
+# Git Worktree 目录（不提交 worktree 工作目录）
+worktrees/
+
 # 参考项目（只保留 README.md，不提交克隆的项目）
 references/*/
 !references/README.md
