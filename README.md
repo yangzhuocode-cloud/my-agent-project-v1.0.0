@@ -16,6 +16,7 @@
 - **开发与导出分离** - 开发时灵活引用，导出后完全独立
 - **人机分离的文档** - 人类看理解性文档，AI 看执行性指令
 - **知识沉淀机制** - 自动记录问题、笔记和想法
+- **OpenAI 协议兼容** - 基于标准 OpenAI API 协议，支持主流模型服务
 
 ## 项目结构
 
@@ -78,3 +79,26 @@ python scripts/export-agent.py "my first agent"
 ## 更新日志
 
 查看 [CHANGELOG.md](./CHANGELOG.md) 了解项目的所有重要变更。
+
+## 技术说明
+
+### OpenAI 协议兼容性
+
+本项目基于标准 OpenAI API 协议开发，依赖以下关键特性：
+
+- **标准请求格式**：`/v1/chat/completions` 端点
+- **usage 字段**：用于精确的 Token 统计和上下文管理
+- **非流式模式**：`stream=false` 时返回完整响应
+
+**兼容的模型服务**：
+- ✅ OpenAI GPT 系列
+- ✅ 火山方舟豆包系列
+- ✅ Azure OpenAI Service
+- ✅ 其他完全兼容 OpenAI 协议的服务
+
+**潜在兼容性问题**：
+- ⚠️ 非标准协议的模型可能无法返回 `usage` 字段
+- ⚠️ 自定义 API 端点可能需要适配
+- ⚠️ 流式模式下 `usage` 字段的返回时机可能不同
+
+详细说明请参考：[My First Agent 文档](./docs/agents/my-first-agent.md#openai-协议依赖)
