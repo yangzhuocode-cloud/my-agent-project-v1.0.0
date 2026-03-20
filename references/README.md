@@ -69,6 +69,6 @@ git clone https://github.com/ollama/ollama-python.git
 
 ## 相关文档
 
-- [项目结构说明](../docs/project-structure.md)
-- [开发规范](../docs/development-guide.md)
+- [项目结构说明](../docs/understanding/project-structure.md)
+- [设计理念](../docs/understanding/design-philosophy.md)
 - [学习笔记目录](../docs/issues/notes/user/)

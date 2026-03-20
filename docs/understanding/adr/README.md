@@ -49,7 +49,7 @@ ADR (Architecture Decision Record) 是一种记录架构决策的轻量级文档
 ## 考虑的方案
 
 ### 方案 1: [方案名称]
-
+ollama-python
 **描述**: 方案的具体内容
 
 **优点**:

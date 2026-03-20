@@ -177,6 +177,6 @@ def handle_command(self, user_input):
 
 ## 相关文档
 
-- [快速开始](../quick-start.md)
-- [配置说明](../configuration.md)
-- [开发规范](../development-guide.md)
+- [快速开始](../guides/quick-start.md)
+- [配置说明](../guides/configuration.md)
+- [贡献指南](../development/contributing.md)
