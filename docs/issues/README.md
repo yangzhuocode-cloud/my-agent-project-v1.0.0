@@ -8,7 +8,8 @@
 docs/issues/
 ├── problems/              # 问题记录
 ├── notes/                 # 学习笔记  
-└── ideas/                 # 想法和思路
+├── ideas/                 # 想法和思路
+└── python-learning/       # Python学习笔记
 ```
 
 完整的项目结构和目录职责说明请参考：[项目结构说明](./project-structure.md)
@@ -250,3 +251,8 @@ grep -r "问题类型：命令行" docs/issues/problems/
 ### AI 问题文档示例
 
 参考：`docs/issues/problems/ai/git-commit-quote-error.md`
+
+### python-learning/ - Python学习笔记
+- 用于记录Python学习笔记，包括语法、特性、最佳实践等
+- 特别是与Java等语言的对比
+- 包含Python语法特性、最佳实践和常见模式
