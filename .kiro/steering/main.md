@@ -19,6 +19,9 @@ inclusion: auto
 
 以下是你必须遵守的核心指令，详细内容请参考对应文件：
 
+### 分支管理规则（⚠️ 必读）
+#[[file:.kiro/instructions/branch-management.md]]
+
 ### 开发边界
 #[[file:.kiro/instructions/boundaries.md]]
 
