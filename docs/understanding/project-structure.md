@@ -40,6 +40,8 @@ AI-Agents/
 │   │   └── README.md          # 开发指南总览
 │   ├── issues/                # 开发过程记录
 │   │   ├── README.md          # 开发记录指南
+│   │   ├── INDEX-AI.md        # AI 问题索引（给 AI 看）
+│   │   ├── INDEX-USER.md      # 完整索引（给人类看）
 │   │   ├── problems/          # 问题记录
 │   │   │   ├── user/          # 用户提出的问题
 │   │   │   └── ai/            # AI 开发过程中的问题
@@ -152,6 +154,8 @@ agents/{agent-name}/
 ```
 docs/issues/
 ├── README.md              # 开发记录指南
+├── INDEX-AI.md            # AI 问题索引（给 AI 看）
+├── INDEX-USER.md          # 完整索引（给人类看）
 ├── problems/              # 问题记录
 │   ├── user/              # 用户提出的问题（时间前缀命名）
 │   └── ai/                # AI 遇到的问题（slug 命名）
@@ -162,6 +166,17 @@ docs/issues/
     ├── user/              # 用户的想法（时间前缀命名）
     └── ai/                # AI 的优化思路（slug 命名）
 ```
+
+**索引文件说明：**
+- **`INDEX-AI.md`**：专门给 AI 助手看的问题索引
+  - 只包含 `problems/ai/` 下的问题文档
+  - 简洁明了，没有命令行操作等人类相关内容
+  - 通过 `.kiro/steering/main.md` 自动加载
+  
+- **`INDEX-USER.md`**：给人类开发者看的完整索引
+  - 包含所有类型的文档（problems、notes、ideas）
+  - 包含按主题和时间的分类
+  - 包含命令行操作、维护建议等
 
 **命名规范：**
 - **User 文档**：`YYYYMMDD_简短描述.md`
