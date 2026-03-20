@@ -16,6 +16,12 @@ AI-Agents/
 │       ├── main.py            # Agent 主程序
 │       ├── config.json        # Agent 运行时配置
 │       ├── .export.json       # Agent 导出配置（不导出）
+│       ├── docs/              # Agent 开发文档（可选）
+│       │   ├── README.md      # 文档索引
+│       │   ├── development-log.md  # 开发日志
+│       │   ├── *.md           # 技术文档
+│       │   └── adr/           # 架构决策记录
+│       │       └── *.md       # ADR 文档
 │       ├── prompts/           # Agent 的 Prompts 目录
 │       │   ├── agent.md       # Agent 主提示词（必需）
 │       │   └── *.md           # Agent 私有的其他 Prompts
@@ -77,6 +83,12 @@ agents/{agent-name}/
 ├── main.py                    # Agent 主程序
 ├── config.json                # Agent 运行时配置
 ├── .export.json               # Agent 导出配置（不导出）
+├── docs/                      # Agent 开发文档（可选）
+│   ├── README.md              # 文档索引
+│   ├── development-log.md     # 开发日志
+│   ├── *.md                   # 技术文档
+│   └── adr/                   # 架构决策记录
+│       └── *.md               # ADR 文档
 ├── prompts/                   # Agent 的 Prompts 目录
 │   ├── agent.md               # Agent 主提示词（必需）
 │   └── *.md                   # Agent 私有的其他 Prompts
@@ -89,6 +101,7 @@ agents/{agent-name}/
 - 存放 Agent 的核心实现代码
 - 存放 Agent 的配置文件（运行时配置和导出配置）
 - 存放 Agent 的 Prompts（主提示词和私有 Prompts）
+- 存放 Agent 的开发文档（开发日志、技术文档、架构决策）
 - 存放参考的其他 Agent 项目和代码示例（可选）
 - 每个 Agent 独立一个子目录，便于管理和维护
 
@@ -96,6 +109,7 @@ agents/{agent-name}/
 - `agent.md`：每个 Agent 必须有的主提示词文件
 - `config.json`：Agent 运行时配置（model、baseUrl 等）
 - `.export.json`：导出配置，指定排除的文件模式
+- `docs/`：Agent 开发文档目录（可选，记录开发历程和技术细节）
 
 #### `prompts/` - 项目级 Prompts 目录
 存放项目级别的 Prompts，作为单一数据源。
@@ -187,6 +201,40 @@ docs/issues/
 ##### `docs/INDEX.md` - 文档索引
 提供项目所有文档的快速索引和导航。
 
+##### `agents/{agent-name}/docs/` - Agent 开发文档（可选）
+存放该 Agent 的详细开发文档，包括开发历程、技术细节和架构决策。
+
+**与项目级文档的区别：**
+
+| 文档类型 | Agent 内部 docs | 项目级 docs/agents |
+|---------|----------------|-------------------|
+| 目标读者 | Agent 开发者 | Agent 使用者 |
+| 内容深度 | 实现细节、技术决策 | 使用方法、配置说明 |
+| 更新频率 | 开发过程中持续更新 | 稳定版本发布时更新 |
+| 典型内容 | 开发日志、架构决策、实现笔记 | 快速开始、API 文档、示例代码 |
+
+**推荐结构：**
+```
+agents/{agent-name}/docs/
+├── README.md              # 文档索引
+├── development-log.md     # 开发日志（按时间记录）
+├── *.md                   # 技术文档（如 context-management.md）
+└── adr/                   # 架构决策记录
+    ├── README.md          # ADR 索引
+    └── *.md               # 具体的 ADR 文档
+```
+
+**使用场景：**
+- 记录开发过程中的思考和决策
+- 说明核心功能的设计和实现
+- 记录遇到的问题和解决方案
+- 为后续开发者提供技术背景
+
+**注意事项：**
+- 此目录是可选的，简单的 Agent 可以不创建
+- 面向使用者的文档应放在 `docs/agents/` 目录
+- 开发过程中的问题记录应放在 `docs/issues/` 目录
+
 ##### `agents/{agent-name}/references/` - Agent 特定参考项目（可选）
 存放该 Agent 开发过程中参考的其他 Agent 项目和代码示例。
 
@@ -256,9 +304,10 @@ git clone https://github.com/ollama/ollama-python.git
 | Agent 配置 | `agents/{name}/config.json` | Agent 运行时 | 运行时配置 |
 | Agent 主提示词 | `agents/{name}/prompts/agent.md` | AI 系统 | Agent 核心提示词 |
 | Agent 私有 Prompts | `agents/{name}/prompts/*.md` | AI 系统 | Agent 专属 Prompts |
-| 共享 Prompts | `prompts/*.md` | AI 系统 | 多 Agent 共享 |
+| Agent 开发文档 | `agents/{name}/docs/` | Agent 开发者 | 开发历程、技术细节 |
 | Agent 参考 | `agents/{name}/references/` | 开发者 | Agent 特定参考 |
-| Agent 文档 | `docs/agents/{name}.md` | 用户 | 使用说明 |
+| Agent 使用文档 | `docs/agents/{name}.md` | 用户 | 使用说明 |
+| 共享 Prompts | `prompts/*.md` | AI 系统 | 多 Agent 共享 |
 | 项目参考 | `references/` | 开发者 | 通用参考资源 |
 | 开发指令 | `.kiro/steering/main.md` | AI 助手 | 开发规范 |
 | 项目说明 | `README.md` | 人类开发者 | 项目介绍 |
@@ -269,7 +318,8 @@ git clone https://github.com/ollama/ollama-python.git
 
 1. 在 `agents/` 下创建 Agent 目录
 2. 在 `docs/agents/` 下创建使用文档
-3. 更新 `README.md` 中的 Agent 列表
+3. （可选）在 `agents/{name}/docs/` 下创建开发文档
+4. 更新 `README.md` 中的 Agent 列表
 
 ### 新增文档类型时的目录规划
 
