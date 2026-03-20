@@ -7,6 +7,7 @@
 - [ADR-001: OpenAI 协议兼容](./001-openai-protocol.md) - 为什么选择 OpenAI 协议
 - [ADR-002: 分层上下文存储](./002-layered-context.md) - 上下文分层存储架构设计
 - [ADR-003: 上下文智能裁剪算法](./003-context-trimming-algorithm.md) - 裁剪触发阈值、目标值和算法设计
+- [ADR-004: 跨平台编码兼容性](./004-cross-platform-encoding.md) - Windows/Linux/macOS 编码统一方案
 
 ## 什么是 ADR？
 

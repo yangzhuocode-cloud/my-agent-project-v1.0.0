@@ -1,3 +1,20 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+火山方舟-豆包 Agent
+"""
+
+import sys
+import io
+
+# ===================== 跨平台编码兼容性 =====================
+# 确保标准输出使用 UTF-8 编码，避免 Windows 系统 GBK 编码问题
+# 参考: docs/adr/004-cross-platform-encoding.md
+if sys.stdout.encoding != 'utf-8':
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+if sys.stderr.encoding != 'utf-8':
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
+
 import requests
 import json
 import time
