@@ -172,6 +172,98 @@ code worktrees/my-first-agent    # agent 分支
 3. **提交位置**：要清楚当前在哪个目录（哪个分支）提交
 4. **.gitignore**：需要忽略 `worktrees/` 目录，避免提交
 
+## Worktree 与远程仓库
+
+### 重要理解
+
+**Worktree 只是本地工作方式**：
+- ✅ 推送到远程的是**分支**（master、feature/xxx）
+- ❌ `worktrees/` 目录**不会推送**（已在 .gitignore 中）
+- ❌ 本地的文件夹结构**不会同步**到远程
+
+### 远程仓库看到的
+
+```
+GitHub/GitLab 远程仓库
+├── master 分支
+├── feature/my-first-agent 分支
+└── feature/another-agent 分支
+
+❌ 没有 worktrees/ 目录
+❌ 没有本地的多文件夹结构
+```
+
+### 其他开发者如何使用
+
+**方式 1：使用 Worktree 模式（推荐）**
+
+```bash
+# 1. 克隆项目
+git clone https://github.com/user/my-agent-project.git
+cd my-agent-project
+
+# 2. 运行自动设置脚本
+.\scripts\setup-worktrees.ps1  # Windows
+bash scripts/setup-worktrees.sh  # Linux/Mac
+
+# 3. 脚本会自动：
+#    - 检测所有远程 feature 分支
+#    - 为每个分支创建 worktree
+#    - 输出设置结果
+
+# 4. 现在本地结构和原作者一样了
+git worktree list
+```
+
+**方式 2：传统方式（不使用 Worktree）**
+
+```bash
+# 克隆后直接切换分支工作
+git clone https://github.com/user/my-agent-project.git
+cd my-agent-project
+
+# 切换到 feature 分支
+git checkout feature/my-first-agent
+# 开发...
+
+# 切回 master
+git checkout master
+```
+
+### 自动设置脚本
+
+项目提供了 `scripts/setup-worktrees.ps1` 和 `setup-worktrees.sh`：
+
+**功能**：
+- 自动检测所有远程 feature 分支
+- 为每个分支创建对应的 worktree
+- 跳过已存在的 worktree
+- 输出详细的设置结果和使用提示
+
+**示例输出**：
+```
+Setting up Git Worktree development environment...
+
+Fetching remote branch information...
+Found the following feature branches:
+  - feature/my-first-agent
+  - feature/another-agent
+
+Creating worktrees...
+
+CREATE: worktrees/my-first-agent (feature/my-first-agent)
+CREATE: worktrees/another-agent (feature/another-agent)
+
+========================================
+Worktree setup completed
+
+Current worktree structure:
+D:/projects/my-agent-project  [master]
+D:/projects/my-agent-project/worktrees/my-first-agent  [feature/my-first-agent]
+D:/projects/my-agent-project/worktrees/another-agent  [feature/another-agent]
+========================================
+```
+
 ## 相关文档
 
 - [Git 工作流程](../../development/git-workflow.md) - 完整的 Git 工作流程说明

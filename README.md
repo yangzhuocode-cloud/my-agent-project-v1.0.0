@@ -34,6 +34,18 @@
 
 ## 快速开始
 
+### 克隆项目
+
+```bash
+# 克隆项目
+git clone https://github.com/user/my-agent-project.git
+cd my-agent-project
+
+# 设置 Worktree 开发环境（推荐）
+.\scripts\setup-worktrees.ps1  # Windows
+bash scripts/setup-worktrees.sh  # Linux/Mac
+```
+
 ### 基础使用
 
 ```bash
