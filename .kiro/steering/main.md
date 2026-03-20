@@ -31,6 +31,9 @@ inclusion: auto
 ### 代码规范
 #[[file:.kiro/instructions/coding-standards.md]]
 
+### 日志规范（⚠️ 必读）
+#[[file:.kiro/instructions/logging.md]]
+
 ## 提交规范
 
 项目使用 Angular 提交规范：
