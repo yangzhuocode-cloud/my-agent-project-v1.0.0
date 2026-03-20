@@ -74,5 +74,5 @@ references/
 ## 相关文档
 
 - [My First Agent 文档](../../../docs/agents/my-first-agent.md)
-- [开发规范](../../../docs/development-guide.md)
+- [设计理念](../../../docs/understanding/design-philosophy.md)
 - [学习笔记目录](../../../docs/issues/notes/user/)

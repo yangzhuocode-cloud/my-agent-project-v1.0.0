@@ -111,8 +111,8 @@ git push origin --delete feature/agent-translator
 
 详细的提交规范请参考：
 
-- [开发规范 - Git 提交规范](./development-guide.md#git-提交规范)
-- [Angular 提交规范详解](../agents/my%20first%20agent/docs/git_commit_angular_001.md)
+- [贡献指南 - Git 提交规范](./contributing.md)
+- 项目使用 Angular 提交规范
 
 ### 快速参考
 
@@ -188,5 +188,5 @@ git push
 
 ## 相关文档
 
-- [开发规范](./development-guide.md) - 代码规范和提交规范
-- [快速开始](./quick-start.md) - 项目快速上手指南
+- [贡献指南](./contributing.md) - 代码规范和提交规范
+- [快速开始](../guides/quick-start.md) - 项目快速上手指南
