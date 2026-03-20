@@ -23,9 +23,9 @@ import re
 # ===================== 火山方舟配置（严格匹配官网） =====================
 class VolcArkDoubaoConfig:
     # 1. 火山方舟核心配置（替换为你的真实信息）
-    API_KEY = "7fc03e54-05c9-472c-ada1-0772ff255db5"  # 从火山方舟控制台获取的API Key
-    BASE_URL = "https://ark.cn-beijing.volces.com/api/coding/v3"  # 官网指定的OpenAI兼容地址
-    MODEL = "Doubao-Seed-2.0-pro"  # 火山方舟控制台显示的模型名（如ark-code-latest/doubao-pro）
+    API_KEY = "your-api-key-here"  # 从火山方舟控制台获取的API Key
+    BASE_URL = "https://ark.cn-beijing.volces.com/api/v3"  # 官网指定的OpenAI兼容地址
+    MODEL = "your-model-name"  # 火山方舟控制台显示的模型名
     
     # 2. 生成参数（火山方舟支持的参数）
     TEMPERATURE = 0.7    # 随机性 0-1
@@ -358,6 +358,164 @@ class VolcArkDoubaoAgent:
     def _trim_context(self):
         """基于 token 数裁剪上下文（兼容旧接口）"""
         self._check_and_trim()
+    
+    def test_connection(self):
+        """
+        测试 API 连接配置
+        
+        采用方案 1（最小化测试）+ 方案 3（模型列表验证）组合
+        参考: docs/adr/005-api-connection-test.md
+        
+        Returns:
+            dict: 测试结果
+        """
+        print("=" * 60)
+        print("API 连接测试")
+        print("=" * 60)
+        
+        # 阶段 1: 尝试模型列表验证（OpenAI 协议）
+        model_test = self._try_verify_model()
+        
+        if model_test["supported"]:
+            # 支持 OpenAI 协议
+            if not model_test["success"]:
+                # 模型不可用，提前返回错误
+                self._print_test_result(model_test)
+                return model_test
+            else:
+                print(model_test["message"])
+        else:
+            # 不支持 OpenAI 协议
+            print("⚠️  当前 API 不支持 OpenAI 标准协议的模型列表接口")
+            print("    将跳过模型验证，直接测试对话功能")
+            print()
+        
+        # 阶段 2: 最小化对话测试（必须）
+        chat_test = self._test_chat_completion()
+        self._print_test_result(chat_test)
+        
+        return chat_test
+    
+    def _try_verify_model(self):
+        """尝试验证模型（OpenAI 协议）"""
+        try:
+            response = requests.get(
+                f"{self.config.BASE_URL}/models",
+                headers={"Authorization": f"Bearer {self.config.API_KEY}"},
+                timeout=10
+            )
+            
+            if response.status_code == 200:
+                # 支持 OpenAI 协议
+                data = response.json()
+                available_models = [m["id"] for m in data.get("data", [])]
+                
+                if self.config.MODEL in available_models:
+                    return {
+                        "supported": True,
+                        "success": True,
+                        "message": f"✅ 模型 '{self.config.MODEL}' 可用",
+                        "available_models": available_models
+                    }
+                else:
+                    return {
+                        "supported": True,
+                        "success": False,
+                        "error": f"❌ 模型 '{self.config.MODEL}' 不在可用列表中",
+                        "available_models": available_models,
+                        "suggestion": f"可用模型: {', '.join(available_models[:5])}"
+                    }
+            else:
+                # 不支持或认证失败
+                return {"supported": False}
+        
+        except Exception:
+            # 不支持 OpenAI 协议
+            return {"supported": False}
+    
+    def _test_chat_completion(self):
+        """测试对话接口（最小化测试）"""
+        try:
+            payload = {
+                "model": self.config.MODEL,
+                "messages": [{"role": "user", "content": "hi"}],
+                "max_tokens": 5
+            }
+            
+            response = requests.post(
+                f"{self.config.BASE_URL}/chat/completions",
+                headers={
+                    "Authorization": f"Bearer {self.config.API_KEY}",
+                    "Content-Type": "application/json"
+                },
+                json=payload,
+                timeout=10
+            )
+            
+            if response.status_code == 200:
+                result = response.json()
+                reply = result["choices"][0]["message"]["content"]
+                tokens_used = result.get("usage", {}).get("total_tokens", "未知")
+                
+                return {
+                    "success": True,
+                    "message": "✅ API 连接测试成功",
+                    "model": self.config.MODEL,
+                    "response_preview": reply,
+                    "tokens_used": tokens_used
+                }
+            else:
+                return {
+                    "success": False,
+                    "error": f"❌ HTTP {response.status_code}",
+                    "details": response.text[:200]
+                }
+        
+        except requests.exceptions.Timeout:
+            return {
+                "success": False,
+                "error": "❌ 请求超时",
+                "suggestion": "请检查网络连接或 Base URL 是否正确"
+            }
+        except requests.exceptions.ConnectionError:
+            return {
+                "success": False,
+                "error": "❌ 无法连接到服务器",
+                "suggestion": "请检查 Base URL 是否正确"
+            }
+        except KeyError as e:
+            return {
+                "success": False,
+                "error": f"❌ 响应格式错误: 缺少字段 {str(e)}",
+                "suggestion": "API 可能不兼容 OpenAI 协议"
+            }
+        except Exception as e:
+            return {
+                "success": False,
+                "error": f"❌ 测试失败: {str(e)}"
+            }
+    
+    def _print_test_result(self, result):
+        """打印测试结果"""
+        if result["success"]:
+            print(result["message"])
+            if "response_preview" in result:
+                print(f"    模型: {result['model']}")
+                print(f"    回复预览: {result['response_preview']}")
+                print(f"    Token 消耗: {result['tokens_used']}")
+        else:
+            print(result["error"])
+            if "suggestion" in result:
+                print(f"    建议: {result['suggestion']}")
+            if "available_models" in result:
+                models_str = ', '.join(result['available_models'][:5])
+                if len(result['available_models']) > 5:
+                    models_str += f" (共 {len(result['available_models'])} 个)"
+                print(f"    可用模型: {models_str}")
+            if "details" in result:
+                print(f"    详情: {result['details']}")
+        
+        print("=" * 60)
 
     def call_volc_ark_api(self, user_input):
         """调用火山方舟兼容OpenAI协议的豆包API"""

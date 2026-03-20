@@ -8,6 +8,7 @@
 - [ADR-002: 分层上下文存储](./002-layered-context.md) - 上下文分层存储架构设计
 - [ADR-003: 上下文智能裁剪算法](./003-context-trimming-algorithm.md) - 裁剪触发阈值、目标值和算法设计
 - [ADR-004: 跨平台编码兼容性](./004-cross-platform-encoding.md) - Windows/Linux/macOS 编码统一方案
+- [ADR-005: API 连接测试方案](./005-api-connection-test.md) - 配置验证和连接测试机制
 
 ## 什么是 ADR？
 
