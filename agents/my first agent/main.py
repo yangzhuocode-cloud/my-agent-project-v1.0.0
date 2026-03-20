@@ -207,6 +207,8 @@ class VolcArkDoubaoAgent:
             })
         
         return messages
+    
+    def _estimate_tokens(self, messages):
         """粗略估算 token 数（中英文混合）"""
         total_tokens = 0
         for msg in messages:
@@ -377,7 +379,7 @@ class VolcArkDoubaoAgent:
             response = requests.post(
                 url=f"{self.config.BASE_URL}/chat/completions",
                 headers=headers,
-                data=json.dumps(payload, ensure_ascii=False),
+                json=payload,  # 使用 json 参数自动处理序列化
                 timeout=30
             )
             # 8. 检查HTTP状态码
