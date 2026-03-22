@@ -172,6 +172,81 @@ code worktrees/my-first-agent    # agent 分支
 3. **提交位置**：要清楚当前在哪个目录（哪个分支）提交
 4. **.gitignore**：需要忽略 `worktrees/` 目录，避免提交
 
+## 常见问题与解决方案
+
+### 问题 1：Worktree 创建失败 - invalid reference
+
+**发生日期**：2026-03-23
+
+**问题描述**：
+
+尝试为远程分支 `origin/feature/my-first-agent` 创建本地 worktree 时，出现以下错误：
+
+```bash
+git worktree add worktrees/my-first-agent -b feature/my-first-agent origin/feature/my-first-agent
+# 输出：
+# Preparing worktree (new branch 'feature/my-first-agent')
+# branch 'feature/my-first-agent' set up to track 'origin/feature/my-first-agent'.
+# fatal: invalid reference: feature/my-first-agent
+```
+
+**排查过程**：
+
+1. 检查远程分支存在：`git branch -a` 显示 `remotes/origin/feature/my-first-agent` 存在
+2. 尝试 `git branch --track feature/my-first-agent origin/feature/my-first-agent`，命令显示成功但分支实际未创建
+3. 检查 `git show-ref --heads`，发现本地分支列表中没有 `feature/my-first-agent`
+4. 检查 `.git/refs/heads/` 目录，没有 `feature/` 子目录
+5. 检查 `.git/packed-refs` 文件，发现只有 `refs/remotes/origin/feature/my-first-agent`，没有对应的本地分支引用
+
+**根本原因**：
+
+Git 的分支引用存储在两个位置：
+- `.git/refs/heads/` 目录（松散引用）
+- `.git/packed-refs` 文件（打包引用）
+
+当执行 `git branch --track` 或 `git worktree add -b` 时，Git 需要在上述位置创建本地分支引用。但由于某些原因（可能是之前的异常操作或 Git 版本兼容性问题），引用未能正确创建，导致后续操作失败。
+
+**解决方案**：
+
+手动在 `.git/packed-refs` 文件中添加本地分支引用：
+
+```text
+# .git/packed-refs 文件内容
+# pack-refs with: peeled fully-peeled sorted 
+1372936152b4feaebcc6c246da905288975c94bb refs/heads/master
+31f0fa914520b17650f5e59cfac93b0b658ca03c refs/heads/feature/my-first-agent  ← 新增此行
+31f0fa914520b17650f5e59cfac93b0b658ca03c refs/remotes/origin/feature/my-first-agent
+f6c8d246ed24aed78f207ebac2769901c4c7a38d refs/remotes/origin/master
+```
+
+添加后，再次执行 worktree 创建命令即可成功：
+
+```bash
+git worktree add worktrees/my-first-agent feature/my-first-agent
+# 输出：
+# Preparing worktree (checking out 'feature/my-first-agent')
+# HEAD is now at 31f0fa9 feat: 实现 API 连接测试功能
+```
+
+**预防措施**：
+
+1. 创建 worktree 前先确认本地分支是否已正确创建
+2. 使用 `git branch -vv` 验证分支状态
+3. 如遇到类似问题，检查 `.git/packed-refs` 文件内容
+
+**相关命令**：
+
+```bash
+# 查看所有引用
+git for-each-ref refs/heads/
+
+# 查看打包引用文件
+cat .git/packed-refs
+
+# 手动更新引用
+git update-ref refs/heads/feature/my-first-agent refs/remotes/origin/feature/my-first-agent
+```
+
 ## Worktree 与远程仓库
 
 ### 重要理解
