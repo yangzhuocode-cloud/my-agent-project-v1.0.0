@@ -8,7 +8,16 @@
 AI-Agents/
 ├── .git/                      # Git 版本控制
 ├── .idea/                     # IDE 配置文件
-├── .kiro/                     # Kiro IDE 配置
+├── .trae/                     # Trae IDE 配置
+│   ├── rules/                 # 规则目录
+│   │   ├── index.md           # 规则与技能总索引
+│   │   ├── core_rules.md      # 全局核心规则
+│   │   └── project_rules.md   # 项目规则入口
+│   └── skills/                # 技能目录
+│       ├── critical/          # 启动必加载
+│       ├── high/              # 场景触发加载
+│       └── normal/            # 显式调用加载
+├── .kiro/                     # Kiro IDE 配置（历史遗留）
 │   └── steering/
 │       └── main.md            # AI 助手开发指令
 ├── agents/                    # AI Agent 代码目录
@@ -284,10 +293,48 @@ git clone https://github.com/ollama/ollama-python.git
 
 ### 配置目录
 
-#### `.kiro/` - Kiro IDE 配置
+#### `.trae/` - Trae IDE 配置
+
+存放 Trae IDE 的规则和技能配置，是 AI 助手开发行为的核心配置目录。
+
+**目录结构：**
+```
+.trae/
+├── rules/                     # 规则目录
+│   ├── index.md               # 规则与技能总索引（单一入口）
+│   ├── core_rules.md          # 全局核心规则（详细版）
+│   └── project_rules.md       # 项目规则入口（Trae自动加载）
+└── skills/                    # 技能目录
+    ├── critical/              # 启动必加载的Skill
+    │   ├── branch-management/ # Git分支管理规则
+    │   └── core-boundaries/   # 核心操作边界约束
+    ├── high/                  # 场景触发加载的Skill
+    │   ├── coding-standards/  # 代码规范
+    │   └── workflow/          # 工作流程
+    └── normal/                # 显式调用加载的Skill
+        └── logging/           # 日志规范
+```
+
+**职责：**
+- 存放 AI 助手的开发规范和工作流程
+- 定义操作边界和禁止事项
+- 提供代码规范和日志规范
+- 管理分支开发规则
+
+**设计原则：**
+- **单一入口**：通过 `rules/index.md` 索引所有规则和技能
+- **规则与技能解耦**：规则定义边界，技能定义执行细则
+- **优先级分层**：critical（启动必加载）→ high（场景触发）→ normal（显式调用）
+
+**详细说明：** 参见 [Trae 配置目录结构说明](./trae-structure.md)
+
+#### `.kiro/` - Kiro IDE 配置（历史遗留）
+
 存放 Kiro IDE 的配置文件和开发指令。
 
 - **`.kiro/steering/main.md`**：AI 助手开发指令，定义开发规范和工作流程
+
+**注意**：本项目已迁移到 Trae IDE，`.kiro/` 目录为历史遗留，可忽略。
 
 ### 根目录文件
 
@@ -309,7 +356,9 @@ git clone https://github.com/ollama/ollama-python.git
 | Agent 使用文档 | `docs/agents/{name}.md` | 用户 | 使用说明 |
 | 共享 Prompts | `prompts/*.md` | AI 系统 | 多 Agent 共享 |
 | 项目参考 | `references/` | 开发者 | 通用参考资源 |
-| 开发指令 | `.kiro/steering/main.md` | AI 助手 | 开发规范 |
+| 开发指令 | `.trae/skills/` | AI 助手 | 开发规范、工作流程 |
+| 规则入口 | `.trae/rules/project_rules.md` | AI 助手 | 核心规则入口 |
+| 开发指令 | `.kiro/steering/main.md` | AI 助手 | 开发规范（历史遗留） |
 | 项目说明 | `README.md` | 人类开发者 | 项目介绍 |
 
 ## 扩展规范

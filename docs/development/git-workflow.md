@@ -17,6 +17,43 @@
 
 每个新 Agent 在独立分支开发，开发完成后合并到主分支。
 
+### 新分支创建规则
+
+**重要：所有新分支必须从主分支（master）创建**
+
+```bash
+# 1. 确保在主分支
+git checkout master
+
+# 2. 拉取最新代码
+git pull origin master
+
+# 3. 从主分支创建新分支
+git checkout -b feature/<agent-name>
+```
+
+**为什么必须从主分支创建？**
+
+- 保持分支历史清晰，避免复杂的合并历史
+- 确保新分支基于最新的稳定代码
+- 便于后续合并和冲突解决
+- 符合项目分支管理规范
+
+**错误示例**：
+```bash
+# ❌ 不要从其他 feature 分支创建新分支
+git checkout feature/agent-a
+git checkout -b feature/agent-b  # 错误！会导致分支历史混乱
+```
+
+**正确示例**：
+```bash
+# ✅ 始终从 master 创建新分支
+git checkout master
+git pull origin master
+git checkout -b feature/agent-b  # 正确
+```
+
 ## Git Worktree 与远程仓库
 
 ### 重要说明
