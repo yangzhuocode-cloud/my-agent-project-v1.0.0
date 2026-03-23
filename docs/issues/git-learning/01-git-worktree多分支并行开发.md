@@ -247,6 +247,108 @@ cat .git/packed-refs
 git update-ref refs/heads/feature/my-first-agent refs/remotes/origin/feature/my-first-agent
 ```
 
+### 问题 2：创建新分支的 Worktree 时 invalid reference 错误
+
+**发生日期**：2026-03-23
+
+**问题描述**：
+
+从 master 分支创建新的 feature 分支并添加 worktree 时，出现以下错误：
+
+```bash
+git worktree add worktrees/meta-automation-agent -b feature/meta-automation-agent HEAD
+# 输出：
+# Preparing worktree (new branch 'feature/meta-automation-agent')
+# fatal: invalid reference: feature/meta-automation-agent
+```
+
+**排查过程**：
+
+1. 尝试不带斜杠的分支名 `meta-automation-agent`，命令成功执行
+2. 尝试用引号包裹分支名 `"feature/meta-automation-agent"`，仍然失败
+3. 检查 `.git/refs/heads/` 目录，发现只有 `master` 文件，没有 `feature/` 子目录
+4. 检查 `.git/packed-refs` 文件，发现分支引用存储在此文件中
+5. 发现 `feature/my-first-agent` 分支存在于 `packed-refs` 中，但新创建的分支未能正确添加
+
+**根本原因**：
+
+Git 在处理带斜杠（`/`）的分支名时，需要在 `refs/heads/` 下创建对应的目录结构。当分支引用存储在 `packed-refs` 文件中时，`git worktree add -b feature/xxx` 命令在创建分支引用时出现异常，导致分支引用未能正确写入，后续的 worktree 创建因此失败。
+
+**解决方案**：
+
+**步骤 1**：手动创建分支引用目录和文件
+
+```bash
+# 创建 feature 目录
+mkdir -p .git/refs/heads/feature
+
+# 创建分支引用文件（内容为当前 HEAD 的 commit hash）
+echo "161bbab2409d5bd04d10209c04632f7a938cf199" > .git/refs/heads/feature/meta-automation-agent
+```
+
+**步骤 2**：更新 packed-refs 文件
+
+在 `.git/packed-refs` 文件中添加新分支引用：
+
+```text
+# .git/packed-refs 文件内容
+# pack-refs with: peeled fully-peeled sorted 
+161bbab2409d5bd04d10209c04632f7a938cf199 refs/heads/master
+161bbab2409d5bd04d10209c04632f7a938cf199 refs/heads/feature/meta-automation-agent  ← 新增此行
+31f0fa914520b17650f5e59cfac93b0b658ca03c refs/heads/feature/my-first-agent
+...
+```
+
+**步骤 3**：创建 worktree
+
+```bash
+git worktree add worktrees/meta-automation-agent feature/meta-automation-agent
+# 输出：
+# Preparing worktree (checking out 'feature/meta-automation-agent')
+# HEAD is now at 161bbab docs(git): 记录 worktree 创建失败问题及解决方案
+```
+
+**验证结果**：
+
+```bash
+git worktree list
+# D:/AI Development-v2.0/projects/my-agent-project-v1.0.0                         161bbab [master]
+# D:/AI Development-v2.0/projects/my-agent-project-v1.0.0/worktrees/meta-automation-agent  161bbab [feature/meta-automation-agent]
+# D:/AI Development-v2.0/projects/my-agent-project-v1.0.0/worktrees/my-first-agent         31f0fa9 [feature/my-first-agent]
+
+git branch -a
+# + feature/meta-automation-agent
+# + feature/my-first-agent
+# * master
+#   remotes/origin/HEAD -> origin/master
+#   remotes/origin/feature/my-first-agent
+#   remotes/origin/master
+```
+
+**替代方案**：
+
+如果不想手动修改 Git 内部文件，可以使用以下方法：
+
+```bash
+# 方法 1：先切换创建分支，再切回 master，最后添加 worktree
+git checkout -b feature/meta-automation-agent
+git checkout master
+git worktree add worktrees/meta-automation-agent feature/meta-automation-agent
+
+# 方法 2：使用不带斜杠的分支名（如果命名规范允许）
+git worktree add worktrees/meta-automation-agent -b meta-automation-agent HEAD
+```
+
+**预防措施**：
+
+1. 创建带 `/` 的分支名时，先确认 Git 版本是否支持
+2. 使用 `git checkout -b` 先创建分支，再用 `git worktree add` 添加
+3. 遇到 `invalid reference` 错误时，检查 `.git/refs/heads/` 和 `.git/packed-refs`
+
+**注意事项**：
+
+手动修改 `.git/` 目录下的文件有风险，操作前建议备份。正常情况下应使用 Git 命令管理分支，手动修改仅作为问题排查和修复的最后手段。
+
 ## Worktree 与远程仓库
 
 ### 重要理解
