@@ -19,6 +19,17 @@ inclusion: auto
 ⚠️ 需要确认：删除文件/改结构/导出Agent/重大重构
 🚫 禁止操作：修改.git/、.gitignore 排除项、提交敏感信息
 
+## 分支操作约束（核心）
+
+### 主分支（master）
+- ❌ 禁止修改：`agents/`、`docs/agents/` 目录下的任何文件
+
+### 子分支（feature/*）
+- ✅ 允许修改：`worktree/<对应分支名>/agents/`、`worktree/<对应分支名>/docs/agents/`
+- ❌ 禁止修改：其他目录下的 agents 相关文件
+
+> 例如：在 `feature/my-first-agent` 分支下，只能修改 `worktree/my-first-agent/agents/` 和 `worktree/my-first-agent/docs/agents/`
+
 ## 提交规范（核心）
 
 - 遵循 Angular 规范：#[[prompt:git_commit_angular_001]]
