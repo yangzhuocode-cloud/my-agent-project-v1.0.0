@@ -378,7 +378,7 @@ def _estimate_messages_tokens(self, messages):
 ### 初始化
 
 ```python
-agent = VolcArkDoubaoAgent()
+agent = APIModelAgent()
 agent.set_task("创建一个 Python 计算器程序")
 ```
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-火山方舟-豆包 Agent
+OpenAI 兼容 API Agent
 """
 
 import sys
@@ -20,21 +20,21 @@ import json
 import time
 import re
 
-# ===================== 火山方舟配置（严格匹配官网） =====================
-class VolcArkDoubaoConfig:
-    # 1. 火山方舟核心配置（替换为你的真实信息）
-    API_KEY = "your-api-key-here"  # 从火山方舟控制台获取的API Key
-    BASE_URL = "https://ark.cn-beijing.volces.com/api/v3"  # 官网指定的OpenAI兼容地址
-    MODEL = "your-model-name"  # 火山方舟控制台显示的模型名
+# ===================== 通用 API 配置（OpenAI 兼容） =====================
+class APIModelConfig:
+    # 1. API 核心配置（替换为你的真实信息）
+    API_KEY = "your-api-key-here"  # 从 API 提供商控制台获取的 API Key
+    BASE_URL = "https://ark.cn-beijing.volces.com/api/v3"  # API 端点地址
+    MODEL = "your-model-name"  # 模型名称
     
-    # 2. 生成参数（火山方舟支持的参数）
+    # 2. 生成参数
     TEMPERATURE = 0.7    # 随机性 0-1
     MAX_TOKENS = 2000    # 最大回复长度
     TOP_P = 0.9          # 采样阈值
     STREAM = False       # 关闭流式输出
     
     # 3. 上下文配置（基于 token 限制）
-    SYSTEM_PROMPT = "你是一个专业的AI助手，基于豆包模型提供回答"
+    SYSTEM_PROMPT = "你是一个专业的AI助手"
     MODEL_MAX_TOKENS = 256000  # 256k 上下文窗口（256k = 256,000 tokens）
     CONTEXT_SAFETY_RATIO = 0.80  # 保留 80% 给历史，20% 给新回复
     MAX_CONTEXT_TOKENS = int(MODEL_MAX_TOKENS * CONTEXT_SAFETY_RATIO)  # 204,800 tokens
@@ -48,10 +48,10 @@ class MessagePriority:
     MEDIUM = 5      # 可压缩（成功操作）
     LOW = 2         # 可删除（思考过程）
 
-# ===================== 火山方舟豆包Agent核心类 =====================
-class VolcArkDoubaoAgent:
+# ===================== 通用 Agent 核心类 =====================
+class APIModelAgent:
     def __init__(self):
-        self.config = VolcArkDoubaoConfig()
+        self.config = APIModelConfig()
         # 分层上下文存储结构
         self.context = {
             # 第1层：永久保留（不参与裁剪）
@@ -517,8 +517,8 @@ class VolcArkDoubaoAgent:
         
         print("=" * 60)
 
-    def call_volc_ark_api(self, user_input):
-        """调用火山方舟兼容OpenAI协议的豆包API"""
+    def call_api(self, user_input):
+        """调用 OpenAI 兼容 API"""
         # 1. 添加用户输入到上下文
         self.add_message("user", user_input)
         
@@ -533,13 +533,13 @@ class VolcArkDoubaoAgent:
         estimated_percent = (estimated_tokens / self.config.MODEL_MAX_TOKENS) * 100
         print(f"[发送中] 上下文: ~{estimated_percent:.1f}% (~{estimated_tokens} tokens, 估算)")
 
-        # 5. 构造请求头（火山方舟鉴权：Bearer + API Key）
+        # 5. 构造请求头（API 鉴权：Bearer + API Key）
         headers = {
             "Content-Type": "application/json",
             "Authorization": f"Bearer {self.config.API_KEY}"
         }
 
-        # 6. 构造请求体（严格遵循OpenAI协议，火山方舟兼容）
+        # 6. 构造请求体（遵循 OpenAI 协议）
         payload = {
             "model": self.config.MODEL,
             "messages": api_messages,
@@ -586,7 +586,7 @@ class VolcArkDoubaoAgent:
             return assistant_reply
 
         except requests.exceptions.RequestException as e:
-            print(f"火山方舟API调用失败：{str(e)}")
+            print(f"API 调用失败：{str(e)}")
             # 失败时清理本次用户输入
             if len(self.context["recent"]) > 0 and self.context["recent"][-1]["role"] == "user":
                 self.context["recent"].pop()
@@ -598,15 +598,15 @@ class VolcArkDoubaoAgent:
 
 # ===================== 测试运行 =====================
 if __name__ == "__main__":
-    agent = VolcArkDoubaoAgent()
-    print("火山方舟-豆包Agent已启动（OpenAI兼容版），输入'退出'结束对话")
+    agent = APIModelAgent()
+    print("API Agent 已启动（OpenAI 兼容版），输入'退出'结束对话")
     while True:
         user_input = input("\n你：")
         if user_input.strip() == "退出":
             print("Agent已退出")
             break
-        reply = agent.call_volc_ark_api(user_input)
+        reply = agent.call_api(user_input)
         if reply:
-            print(f"豆包：{reply}")
+            print(f"Agent：{reply}")
         else:
-            print("豆包：抱歉，我暂时无法回答你的问题")
+            print("Agent：抱歉，我暂时无法回答你的问题")

@@ -438,13 +438,14 @@ def print_test_result(result):
 
 ## 使用示例
 
-### 示例 1: OpenAI 协议（火山方舟）
+### 示例 1: OpenAI 兼容 API
 
 ```python
-from main import VolcArkDoubaoAgent
+from main import APIModelAgent
 
 # 创建 Agent
-agent = VolcArkDoubaoAgent()
+agent = APIModelAgent()
+```
 
 # 测试连接
 result = agent.test_connection()
@@ -542,4 +543,4 @@ result = agent.test_connection()
 
 ---
 
-**注意**：本方案已在火山方舟 API 测试通过。对于其他 API 提供商，如果不支持 `/models` 接口，会自动降级到最小化测试。
+**注意**：本方案已在兼容 OpenAI 协议的 API 测试通过。对于其他 API 提供商，如果不支持 `/models` 接口，会自动降级到最小化测试。

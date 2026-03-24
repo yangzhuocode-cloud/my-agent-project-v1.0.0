@@ -9,7 +9,7 @@
 
 ### 核心挑战
 
-1. **上下文窗口有限**：豆包模型提供 256k tokens 上下文窗口，但需要为模型回复预留空间
+1. **上下文窗口有限**：模型提供 256k tokens 上下文窗口，但需要为模型回复预留空间
 2. **质量与容量的平衡**：过早裁剪影响任务连贯性，过晚裁剪可能触发硬限制
 3. **信息重要性不均**：不同消息的重要性差异巨大，需要智能选择保留内容
 4. **循环执行场景**：Agent 需要多次迭代，上下文会持续增长
@@ -283,7 +283,7 @@ TRIM_TARGET = 0.70     # 裁剪到 70%
 ### 1. CONTEXT_SAFETY_RATIO = 0.80
 
 **依据**：
-- 豆包模型最大回复长度配置为 2000 tokens
+- 模型最大回复长度配置为 2000 tokens
 - 实际回复通常在 500-1500 tokens
 - 预留 20%（51.2k tokens）远超实际需求
 - 为复杂回复和工具调用预留充足空间
@@ -597,26 +597,26 @@ class AdaptiveTrimmer:
 ```python
 def test_trim_threshold():
     """测试裁剪触发时机"""
-    agent = VolcArkDoubaoAgent()
+    agent = APIModelAgent()
     # 添加消息直到达到阈值
     # 验证是否正确触发裁剪
 
 def test_trim_target():
     """测试裁剪目标"""
-    agent = VolcArkDoubaoAgent()
+    agent = APIModelAgent()
     # 触发裁剪
     # 验证裁剪后的 token 使用率
 
 def test_priority_preservation():
     """测试优先级保留"""
-    agent = VolcArkDoubaoAgent()
+    agent = APIModelAgent()
     # 添加不同优先级的消息
     # 触发裁剪
     # 验证高优先级消息是否保留
 
 def test_recent_protection():
     """测试最近对话保护"""
-    agent = VolcArkDoubaoAgent()
+    agent = APIModelAgent()
     # 添加消息并触发裁剪
     # 验证最近 6 条消息是否完整保留
 ```
@@ -647,7 +647,7 @@ def test_recent_protection():
 ```python
 def benchmark_trim_performance():
     """测试裁剪性能"""
-    agent = VolcArkDoubaoAgent()
+    agent = APIModelAgent()
     
     # 添加 1000 条消息
     for i in range(1000):

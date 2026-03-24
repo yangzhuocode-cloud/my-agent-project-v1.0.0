@@ -21,7 +21,7 @@ illegal multibyte sequence
    - GBK 无法编码 emoji，导致 `print()` 时报错
 
 2. **触发场景**
-   - 豆包 API 返回包含 emoji 的回复（如 😊）
+   - API 返回包含 emoji 的回复（如 😊）
    - 使用 `print()` 输出到控制台
    - Windows 控制台使用 GBK 编码
 
@@ -217,7 +217,7 @@ PYTHONUTF8=1
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-火山方舟-豆包 Agent
+OpenAI 兼容 API Agent
 """
 
 import sys

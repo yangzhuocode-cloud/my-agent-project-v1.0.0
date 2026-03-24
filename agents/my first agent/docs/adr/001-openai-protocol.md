@@ -7,8 +7,8 @@
 
 在开发 My First Agent 时，需要选择与 LLM 服务通信的协议格式。主要考虑的选项有：
 
-1. 使用火山方舟的原生 API 格式
-2. 使用 OpenAI 协议格式（火山方舟兼容）
+1. 使用 API 提供商的原生 API 格式
+2. 使用 OpenAI 协议格式（兼容）
 3. 自定义协议格式
 
 关键需求：
@@ -19,7 +19,7 @@
 
 ## 决策
 
-我们决定使用 **OpenAI 协议格式**与火山方舟服务通信。
+我们决定使用 **OpenAI 协议格式**与 API 服务通信。
 
 具体实现：
 ```python
@@ -54,9 +54,9 @@ response = requests.post(
 ### 负面影响
 
 1. **协议依赖**：依赖服务商对 OpenAI 协议的兼容性
-   - 缓解措施：火山方舟官方声明完全兼容 OpenAI 协议
+   - 缓解措施：大多数 API 提供商声明兼容 OpenAI 协议
    
-2. **特性限制**：无法使用火山方舟特有的功能
+2. **特性限制**：无法使用特定 API 提供商特有的功能
    - 缓解措施：当前需求不涉及特有功能
    
 3. **兼容性风险**：如果服务商的 OpenAI 协议实现不完整，可能遇到问题
@@ -69,15 +69,15 @@ response = requests.post(
 
 ## 替代方案
 
-### 方案1：使用火山方舟原生 API
+### 方案1：使用 API 提供商原生 API
 
 **优点**：
-- 可以使用所有火山方舟特有功能
+- 可以使用所有 API 提供商特有功能
 - 不依赖协议兼容性
 
 **缺点**：
-- 代码与火山方舟强耦合，难以迁移
-- 需要学习火山方舟特有的 API 格式
+- 代码与特定 API 提供商强耦合，难以迁移
+- 需要学习特有的 API 格式
 - 生态支持较少
 
 **为什么不选**：可移植性差，不符合长期发展需求
@@ -127,7 +127,7 @@ if "usage" not in result:
 
 通过以下方式验证决策的正确性：
 
-1. ✅ 成功调用火山方舟 API 并获取响应
+1. ✅ 成功调用 API 并获取响应
 2. ✅ 成功从 `usage` 字段获取 Token 统计
 3. ✅ 消息格式与 OpenAI 官方文档一致
 4. ✅ 可以使用 OpenAI 生态的工具（如 tiktoken）
@@ -135,5 +135,4 @@ if "usage" not in result:
 ## 参考资料
 
 - [OpenAI API 文档](https://platform.openai.com/docs/api-reference)
-- [火山方舟 OpenAI 兼容文档](https://www.volcengine.com/docs/82379/1099522)
 - [OpenAI 协议规范](https://github.com/openai/openai-openapi)

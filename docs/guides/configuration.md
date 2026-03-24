@@ -6,13 +6,13 @@
 
 ### API 配置
 
-在 `agents/my first agent/main.py` 的 `VolcArkDoubaoConfig` 类中配置：
+在 `agents/my first agent/main.py` 的 `APIModelConfig` 类中配置：
 
 ```python
-class VolcArkDoubaoConfig:
+class APIModelConfig:
     # API 认证
     API_KEY = "你的API Key"
-    BASE_URL = "https://ark.cn-beijing.volces.com/api/coding/v3"
+    BASE_URL = "https://ark.cn-beijing.volces.com/api/v3"
     MODEL = "Doubao-Seed-2.0-pro"
 ```
 
@@ -45,7 +45,7 @@ STREAM = False       # 是否启用流式输出
 
 ```python
 # 上下文管理
-SYSTEM_PROMPT = "你是一个专业的AI助手，基于豆包模型提供回答"
+SYSTEM_PROMPT = "你是一个专业的AI助手"
 CONTEXT_MAX_LENGTH = 10  # 最大保留对话轮数
 ```
 
