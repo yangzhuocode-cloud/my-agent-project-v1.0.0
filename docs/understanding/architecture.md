@@ -254,8 +254,7 @@ version: 1.0.0
 - **pip** - 包管理
 
 ### AI 服务
-- 火山方舟豆包 API
-- 支持其他兼容 OpenAI API 的服务
+- OpenAI 兼容 API（如火山方舟、Azure OpenAI 等）
 
 ## 性能考虑
 
