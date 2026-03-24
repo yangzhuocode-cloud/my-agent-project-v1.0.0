@@ -1,14 +1,14 @@
 # My First Agent
 
-一个基于火山方舟豆包模型的对话 Agent 示例。
+一个基于 OpenAI 兼容 API 的对话 Agent 示例。
 
 ## 概述
 
-这是项目中的第一个示例 Agent，展示了如何使用火山方舟平台的豆包模型构建一个具备上下文管理能力的对话 Agent。
+这是项目中的第一个示例 Agent，展示了如何使用兼容 OpenAI 协议的 API 构建一个具备上下文管理能力的对话 Agent。
 
 ## 功能特性
 
-- **OpenAI 协议兼容**：使用标准的 OpenAI API 格式调用火山方舟服务
+- **OpenAI 协议兼容**：使用标准的 OpenAI API 格式调用 API 服务
 - **智能上下文管理**：基于 Token 数量动态管理对话历史
 - **真实 Token 统计**：从 API 响应获取精确的 Token 使用情况
 - **参数可配置**：温度、Token 数、采样阈值等参数灵活调整
@@ -19,33 +19,33 @@
 
 ### 核心类
 
-#### VolcArkDoubaoConfig
+#### APIModelConfig
 
 配置类，管理所有 API 和模型参数：
 
 ```python
-class VolcArkDoubaoConfig:
+class APIModelConfig:
     API_KEY = "你的API Key"
-    BASE_URL = "https://ark.cn-beijing.volces.com/api/coding/v3"
+    BASE_URL = "https://ark.cn-beijing.volces.com/api/v3"
     MODEL = "Doubao-Seed-2.0-pro"
     TEMPERATURE = 0.7
     MAX_TOKENS = 2000
     TOP_P = 0.9
     STREAM = False
-    SYSTEM_PROMPT = "你是一个专业的AI助手，基于豆包模型提供回答"
+    SYSTEM_PROMPT = "你是一个专业的AI助手"
     MODEL_MAX_TOKENS = 256000  # 256k 上下文窗口
     CONTEXT_SAFETY_RATIO = 0.80  # 保留 80% 给历史
     MAX_CONTEXT_TOKENS = int(MODEL_MAX_TOKENS * CONTEXT_SAFETY_RATIO)
 ```
 
-#### VolcArkDoubaoAgent
+#### APIModelAgent
 
 Agent 核心类，负责 API 调用和上下文管理：
 
 - `__init__()`: 初始化配置和上下文
 - `_estimate_tokens(messages)`: 估算消息列表的 Token 数（中英文混合）
 - `_trim_context()`: 基于 Token 数裁剪上下文，避免超长
-- `call_volc_ark_api(user_input)`: 调用火山方舟 API，显示真实 Token 使用情况
+- `call_api(user_input)`: 调用 API，显示真实 Token 使用情况
 
 ### 工作流程
 
@@ -53,7 +53,7 @@ Agent 核心类，负责 API 调用和上下文管理：
 2. 基于估算的 Token 数裁剪上下文（发送前预判）
 3. 显示估算的上下文使用率
 4. 构造请求头和请求体
-5. 发送 POST 请求到火山方舟 API
+5. 发送 POST 请求到 API
 6. 解析响应并提取回复内容
 7. 从 API 响应的 `usage` 字段获取真实 Token 使用情况
 8. 显示精确的上下文使用率和 Token 消耗
@@ -83,7 +83,7 @@ Agent 核心类，负责 API 调用和上下文管理：
 ⚠️ **重要说明**：本项目依赖 OpenAI 协议的 `usage` 字段来获取精确的 Token 统计。
 
 **兼容性要求**：
-- ✅ 支持标准 OpenAI 协议的模型服务（如 OpenAI、火山方舟、Azure OpenAI 等）
+- ✅ 支持标准 OpenAI 协议的模型服务（如 OpenAI、Azure OpenAI 等）
 - ✅ 非流式模式（`stream=false`）下，API 必须返回 `usage` 字段
 - ⚠️ 非标准协议的模型可能无法正确获取 Token 统计
 
@@ -94,8 +94,8 @@ Agent 核心类，负责 API 调用和上下文管理：
 
 **推荐的模型服务**：
 - OpenAI GPT 系列（官方）
-- 火山方舟豆包系列（本 Agent 使用）
 - Azure OpenAI Service
+- 火山方舟豆包系列
 - 其他声明完全兼容 OpenAI 协议的服务
 
 ## 使用方法
@@ -112,7 +112,7 @@ python main.py
 编辑 `main.py`，修改配置：
 
 ```python
-API_KEY = "你的火山方舟API Key"
+API_KEY = "你的API Key"
 MODEL = "Doubao-Seed-2.0-pro"  # 或其他模型
 ```
 

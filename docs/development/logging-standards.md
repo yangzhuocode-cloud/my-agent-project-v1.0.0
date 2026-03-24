@@ -245,10 +245,10 @@ def setup_logger(name, log_dir="logs", console_level=logging.INFO, file_level=lo
 ### 使用示例
 
 ```python
-class VolcArkDoubaoAgent:
+class APIModelAgent:
     def __init__(self):
         # 初始化日志
-        self.logger = setup_logger('VolcArkAgent')
+        self.logger = setup_logger('APIAgent')
         self.logger.info("Agent 初始化开始")
         
         # ... 初始化逻辑
@@ -457,7 +457,7 @@ class ContextSnapshot:
 ### 快照触发时机
 
 ```python
-class VolcArkDoubaoAgent:
+class APIModelAgent:
     def __init__(self):
         self.snapshot = ContextSnapshot()
     
@@ -553,7 +553,7 @@ def log_performance(logger):
 ### 使用示例
 
 ```python
-class VolcArkDoubaoAgent:
+class APIModelAgent:
     @log_performance(logger)
     def _smart_trim(self):
         """智能裁剪"""
@@ -731,7 +731,7 @@ logs/
 # 快照：开启
 
 logger = setup_logger(
-    'VolcArkAgent',
+    'APIAgent',
     console_level=logging.DEBUG,
     file_level=logging.DEBUG
 )
@@ -746,7 +746,7 @@ logger = setup_logger(
 # 快照：仅错误时
 
 logger = setup_logger(
-    'VolcArkAgent',
+    'APIAgent',
     console_level=logging.INFO,
     file_level=logging.INFO
 )

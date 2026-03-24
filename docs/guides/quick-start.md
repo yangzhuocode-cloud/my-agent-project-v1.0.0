@@ -15,7 +15,7 @@ pip install requests
 
 ## 运行示例 Agent
 
-### My First Agent（火山方舟豆包）
+### My First Agent（OpenAI 兼容）
 
 1. 进入 Agent 目录：
 
@@ -26,7 +26,7 @@ cd "agents/my first agent"
 2. 配置 API Key（编辑 `main.py`）：
 
 ```python
-API_KEY = "你的火山方舟API Key"
+API_KEY = "你的API Key"
 MODEL = "Doubao-Seed-2.0-pro"  # 或你的模型名称
 ```
 
@@ -44,7 +44,7 @@ python main.py
 
 ```
 你：你好
-豆包：你好！有什么我可以帮助你的吗？
+Agent：你好！有什么我可以帮助你的吗？
 ```
 
 ### 多轮对话
@@ -53,10 +53,10 @@ Agent 会自动记住对话历史，支持上下文连续对话：
 
 ```
 你：我想学习 Python
-豆包：Python 是一门很好的编程语言...
+Agent：Python 是一门很好的编程语言...
 
 你：它有哪些应用场景？
-豆包：基于之前提到的 Python，它的应用场景包括...
+Agent：基于之前提到的 Python，它的应用场景包括...
 ```
 
 ## 下一步
