@@ -19,27 +19,57 @@ import requests
 import json
 import time
 import re
+import os
+from pathlib import Path
+
+
+def load_env_config():
+    """读取 .env 配置文件"""
+    env_file = Path(__file__).parent / ".env"
+    config = {}
+    
+    if not env_file.exists():
+        print("⚠️  未找到 .env 配置文件")
+        print("    请复制 .env.example 为 .env 并填入真实配置")
+        return config
+    
+    with open(env_file, "r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if line and not line.startswith("#") and "=" in line:
+                key, value = line.split("=", 1)
+                config[key.strip()] = value.strip()
+    
+    return config
+
+
+env_config = load_env_config()
+
+task_mode_dir = Path(__file__).parent / "task_mode"
+if task_mode_dir.exists():
+    sys.path.insert(0, str(Path(__file__).parent))
+    from task_mode import is_complex_task, plan_task, execute_task_with_tools
 
 # ===================== 通用 API 配置（OpenAI 兼容） =====================
 class APIModelConfig:
-    # 1. API 核心配置（替换为你的真实信息）
-    API_KEY = "your-api-key-here"  # 从 API 提供商控制台获取的 API Key
-    BASE_URL = "https://ark.cn-beijing.volces.com/api/v3"  # API 端点地址
-    MODEL = "your-model-name"  # 模型名称
+    # 1. API 核心配置（优先从 .env 读取）
+    API_KEY = env_config.get("API_KEY", "")  # 从 .env 或环境变量读取
+    BASE_URL = env_config.get("BASE_URL", "https://ark.cn-beijing.volces.com/api/v3")
+    MODEL = env_config.get("MODEL", "")
     
     # 2. 生成参数
-    TEMPERATURE = 0.7    # 随机性 0-1
-    MAX_TOKENS = 2000    # 最大回复长度
-    TOP_P = 0.9          # 采样阈值
-    STREAM = False       # 关闭流式输出
+    TEMPERATURE = float(env_config.get("TEMPERATURE", "0.7"))
+    MAX_TOKENS = int(env_config.get("MAX_TOKENS", "128000"))
+    TOP_P = 0.9
+    STREAM = False
     
     # 3. 上下文配置（基于 token 限制）
     SYSTEM_PROMPT = "你是一个专业的AI助手"
-    MODEL_MAX_TOKENS = 256000  # 256k 上下文窗口（256k = 256,000 tokens）
-    CONTEXT_SAFETY_RATIO = 0.80  # 保留 80% 给历史，20% 给新回复
-    MAX_CONTEXT_TOKENS = int(MODEL_MAX_TOKENS * CONTEXT_SAFETY_RATIO)  # 204,800 tokens
-    TRIM_THRESHOLD = 0.80  # 达到 80% 时触发裁剪
-    TRIM_TARGET = 0.60  # 裁剪到 60%
+    MODEL_MAX_TOKENS = 256000
+    CONTEXT_SAFETY_RATIO = 0.80
+    MAX_CONTEXT_TOKENS = int(MODEL_MAX_TOKENS * CONTEXT_SAFETY_RATIO)
+    TRIM_THRESHOLD = 0.80
+    TRIM_TARGET = 0.60
 
 # ===================== 消息优先级定义 =====================
 class MessagePriority:
@@ -596,16 +626,59 @@ class APIModelAgent:
                 print(f"错误响应内容：{e.response.text}")
             return None
 
+# ===================== 任务模式入口 =====================
+def run_task_mode(agent, user_input):
+    """运行任务模式"""
+    from task_mode.task_planner import format_steps_for_display
+    
+    detection_reason = "（自动检测为复杂任务）"
+    print(f"\n🤖 {detection_reason}")
+    
+    print("\n📝 正在规划任务步骤...")
+    steps = plan_task(user_input, agent.call_api)
+    
+    print("\n📋 任务步骤:")
+    print(format_steps_for_display(steps))
+    
+    task_state = execute_task_with_tools(
+        steps, 
+        user_input, 
+        tool_map={}, 
+        llm_call_func=agent.call_api
+    )
+    
+    return task_state.format_for_display()
+
+
+def agent_entry(user_input, agent):
+    """
+    Agent 入口：根据输入类型选择模式
+    
+    Args:
+        user_input: 用户输入
+        agent: Agent 实例
+        
+    Returns:
+        str: Agent 回复
+    """
+    if 'is_complex_task' in globals():
+        if is_complex_task(user_input):
+            return run_task_mode(agent, user_input)
+    
+    return agent.call_api(user_input)
+
+
 # ===================== 测试运行 =====================
 if __name__ == "__main__":
     agent = APIModelAgent()
     print("API Agent 已启动（OpenAI 兼容版），输入'退出'结束对话")
+    print("💡 支持任务模式：复杂任务会自动拆分为多步骤执行")
     while True:
         user_input = input("\n你：")
         if user_input.strip() == "退出":
             print("Agent已退出")
             break
-        reply = agent.call_api(user_input)
+        reply = agent_entry(user_input, agent)
         if reply:
             print(f"Agent：{reply}")
         else:
